@@ -3,7 +3,7 @@ package com.yc.atcrowdfunding.bean;
 import java.util.Date;
 import java.util.List;
 
-import net.bytebuddy.dynamic.TargetType;
+
 
 public class TProject {
     /**
