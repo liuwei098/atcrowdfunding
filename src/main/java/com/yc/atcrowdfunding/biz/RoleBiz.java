@@ -20,6 +20,7 @@ import com.yc.atcrowdfunding.vo.Result;
 public class RoleBiz {
 	@Resource
 	private TRoleMapper trm;
+	
 	public Result findAll(int pageNum,int pageSize,String name){
 		TRoleExample example=null;
 		if(name!=null && !"".equals(name)){
@@ -49,9 +50,24 @@ public class RoleBiz {
 	
 	@Transactional
 	public void deleteById(String ids) {
+		System.out.println("-===="+ids);
 		String s[]=ids.split(",");
 		for(String id:s){
 			trm.deleteByPrimaryKey(Integer.parseInt(id));
 		}
 	}
+	
+	//更新角色
+	public void updateRoleById(String id,String name) {
+		TRole tr = new TRole();
+		tr.setName(name);
+		TRoleExample example = new TRoleExample();
+		example.createCriteria().andIdEqualTo(Integer.parseInt(id));
+		trm.updateByExampleSelective(tr, example);
+		 
+	}
+	
+	
+	
+	
 }

@@ -41,7 +41,8 @@
  
           <%@ include file="../commons/commons.jsp" %>
         
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 			<div class="panel panel-default">
 			  <div class="panel-heading">
 				<h3 class="panel-title"><i class="glyphicon glyphicon-th"></i> 数据列表</h3>
@@ -52,14 +53,14 @@
   <div class="form-group has-feedback">
     <div class="input-group">
       <div class="input-group-addon">查询条件</div>
-      <input class="form-control has-success" type="text" placeholder="请输入查询条件">
+      <input class="form-control has-success" type="text" placeholder="请输入查询条件" id="uname">
     </div>
   </div>
-  <button type="button" class="btn btn-warning"><i class="glyphicon glyphicon-search"></i> 查询</button>
+  <button type="button" class="btn btn-warning" onclick="searchUser()"><i class="glyphicon glyphicon-search"></i> 查询</button>
 </form>
 
 <button type="button" class="btn btn-danger" style="float:right;margin-left:10px;" onclick="deleteAll()"><i class=" glyphicon glyphicon-remove"></i> 删除</button>
-<button type="button" class="btn btn-primary" style="float:right;" onclick="window.location.href='add.html'"><i class="glyphicon glyphicon-plus"></i> 新增</button>
+<button type="button" class="btn btn-primary" style="float:right;" onclick="window.location.href='addUser'"><i class="glyphicon glyphicon-plus"></i> 新增</button>
 <br>
  <hr style="clear:both;">
           <div class="table-responsive">
@@ -85,7 +86,8 @@
                   <td>${u.email }</td>
                   <td>
 				      <button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>
-				      <button type="button" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>
+
+				      <button type="button" class="btn btn-primary btn-xs"  onclick="editUser(${u.id },'${u.loginacct }','${u.username }','${u.email }' )" ><i class=" glyphicon glyphicon-pencil"></i></button>
 					  <button type="button" class="btn btn-danger btn-xs"  onclick="deleteUser(${u.id } )"><i class=" glyphicon glyphicon-remove"></i></button>
 				  </td>
                 </tr>
@@ -105,9 +107,12 @@
     </div>
 	
     <script src="jquery/jquery-2.1.1.min.js"></script>
-	<script src="jquery/paging.js"></script>
+
+    <script type="text/javascript" src="easyui/js/jquery.easyui.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
 	<script src="script/docs.min.js"></script>
+	<script src="jquery/paging.js"></script>
+	<script type="text/javascript" src="layer/layer.js"></script>
 	 <script>
     //分页
 	    $("#page").paging({
@@ -142,20 +147,25 @@
             }
             
             $("tbody .btn-success").click(function(){
+            	
                 window.location.href = "assignRole.html";
             });
             
-            $("tbody .btn-primary").click(function(){
-                window.location.href = "edit.html";
-            });
+
+            //编辑用户
+            function editUser(id,loginacct,username,email){
+            	/* alert(loginacct); */
+            	window.location.href = "edit?id="+id+"&loginacct="+loginacct+"&username="+username+"&email="+email;
+            }
+            
+            
             
             //根据id删除用户
-            function deleteUser(id){
+            function deleteUser(ids){
             	
             	var url="deleteUser";
             	var usid=uid.value;
-            	var param={"id":id};
-            	alert(param);
+            	var param={"ids":ids};
             	var callback = function(result){
             		
             		 
@@ -170,72 +180,33 @@
             	$.post( url,param,callback);
 
             }
-           
+  
             //根据多个id删除用户
-             function deleteAll(){
-            	var uids = "";
-            	var a=$(".checkeduid");
-            	for(var i=0;i<a.length;i++){
-            		if(a[i].checked){
-            			uids=uids+a[i].value+",";
-            			
-            		}
-            	}
-            	/* var url="deleteUser";
-              	var param={"uids":uids};
-              	alert(param);
-              	 var callback = function(result){
-            		 
-            		if( result.code ==200){
-            			alert(result.message);
-            			 window.location.href="user?pageNum=${param.pageNum}"; 
-            			
-            		}else{
-            			alert(result.message);
-            		} 
-            	}; */
-            	 
-              $.post( "deleteUser",{"uids":uids},function(result){
-         		 
-          		if( result.code ==200){
-          			alert(result.message);
-          			 window.location.href="user?pageNum=${param.pageNum}"; 
-          			
-          		}else{
-          			alert(result.message);
-          		} 
-          	}); 
-            }
-            	
-            	
-            
-        /*   var uids = "";
+          var ids = "";
           function deleteAll(){
-        	  var a=$(".checkRole");
-          	for(var i=0;i<a.length;i++){
+        	  var a= $(".checkeduid");
+        	   for(var i=0;i<a.length;i++){
           		if(a[i].checked){
-          			uids=uids+a[i].value+",";
+          			  
+          			ids=ids+a[i].value+",";
           		}
+          	} 
+        	   
+          		var url = "deleteUser";
+          		var param = {"ids":ids};
           		
-          		alert(1);
-          	}
-          	
-          	 
-          	var url="deleteUser";
-          	var param={"uids":uids};
-          	var callback = function(result){
-        		//alert(uids);
-       		 
-        		if( result.code ==200){
-        			alert(result.message);
-        			 window.location.href="user?pageNum=${param.pageNum}"; 
-        			
-        		}else{
-        			//alert(result.message);
-        		} 
-        	}
-        	//$.post( url,param,callback);
-          } */
+          		var callback = function(result){
+          			if(result.code==200){
+          				
+          				alert(result.message); 
+          				 window.location.href="user?pageNum=${param.pageNum}"; 
+          			}else{
+          				alert(result.message);
+          			}
+          		};
+        	 $.post(url,param,callback);
+          }
+           
         </script>
   </body>
 </html>
