@@ -114,7 +114,7 @@
             function addDeleteRole(id){
             	//ids=ids+id+",";
             }
-      
+      		
             function DeleteSelectedRole(){
             	var a=$(".checkRole");
             	for(var i=0;i<a.length;i++){
