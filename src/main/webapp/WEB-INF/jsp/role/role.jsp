@@ -122,8 +122,7 @@
             			ids=ids+a[i].value+",";
             		}
             	}
-            /* 	QC - 品质控制
-            	CMO / CMS - 配置管理员 */
+           
            		$.post(
 	              		"role_deleteRole",
 	              		{"ids":ids},
