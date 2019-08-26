@@ -7,6 +7,9 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yc.atcrowdfunding.bean.TPermission;
@@ -54,30 +57,6 @@ public class UserController {
 		return "user/user";
 	}
 	
-	
-	//根据id删除用户
-	@RequestMapping("deleteUser")
-	@ResponseBody
-		 
-		Result result = new Result();
-		try {
-			ubiz.deleteUserById(id);
-	public Result deleteUser(String  ids) {
-		 System.out.println("id 是   "+ids);
-		Result result = new Result();
-		try {
-			//ubiz.deleteUserById(ids);
-			result.setCode(200);
-			result.setMessage("删除成功");
-		} catch (RuntimeException e) {
-			result.setCode(-1);
-			result.setMessage("业务繁忙，删除失败，请稍后再试！！");
-		}
-		
-		return result;
-		
-
-	}
 	
 	
 	//编辑用户页面

@@ -83,4 +83,11 @@ public class ProjectTypeServlet {
 		}
 		return result;
 	}
+	
+	/**
+	 * 修改操作
+	 */
+	public String updateType(){
+		return "";
+	}
 }
