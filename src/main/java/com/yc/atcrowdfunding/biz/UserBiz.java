@@ -1,5 +1,6 @@
 package com.yc.atcrowdfunding.biz;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -48,16 +49,52 @@ public class UserBiz {
 		 
 	}
 	
+	//查询已注册 的登录账号
+	public List<TUser> selectLoginacct(String loginacct) {
+		TUserExample example = new  TUserExample();
+		example.createCriteria().andLoginacctEqualTo(loginacct);
+		 
+		return tum.selectByExample(example);
+		
+	}
+	
 	
 	//根据用户id 删除指定用户
 	@Transactional
-	public void deleteUserById(String uids) {
-		System.out.println("----"+uids);
-		String uisd[] = uids.split(",");
+	public void deleteUserById(String ids) {
+		 System.out.println("----"+ids); 
+		String uisd[] = ids.split(",");
 		for (String i : uisd) {
-			System.out.println("=="+i);
+			/* System.out.println("=="+i); */
 			//tum.deleteByPrimaryKey(Integer.parseInt(i));
 		}
+	}
+	
+	//根据指定id 修改用户信息
+	@Transactional
+	public void updateUserById(String id,String username,String email) {
+		TUser tu = new TUser();
+		tu.setId(Integer.parseInt(id));
+		tu.setEmail(email);
+		tu.setUsername(username);
+		System.out.println("用户id 的是"+id);
+		TUserExample example = new TUserExample();
+		example.createCriteria().andIdEqualTo(Integer.parseInt(id));
+		tum.updateByExampleSelective(tu, example);
+	}
+	
+	
+	//添加用户信息
+	public void insertUserX(String loginacct,String username,String password,String email) {
+		
+		TUser tu = new TUser();
+		tu.setLoginacct(loginacct);
+		tu.setUsername(username);
+		tu.setUserpswd(password);
+		tu.setEmail(email);
+		tu.setCreatetime(new Date());
+		
+		tum.insertSelective(tu);
 	}
 	
 }

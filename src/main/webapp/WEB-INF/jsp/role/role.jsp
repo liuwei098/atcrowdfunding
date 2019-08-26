@@ -48,7 +48,7 @@
   <button type="button" class="btn btn-warning" onclick="searchRole()"><i class="glyphicon glyphicon-search"></i> 查询</button>
 </form>
 <button type="button" class="btn btn-danger" style="float:right;margin-left:10px;" onclick="DeleteSelectedRole()"><i class=" glyphicon glyphicon-remove"></i> 删除</button>
-<button type="button" class="btn btn-primary" style="float:right;" onclick="window.location.href='form.html'"><i class="glyphicon glyphicon-plus"></i> 新增</button>
+<button type="button" class="btn btn-primary" style="float:right;" onclick="window.location.href='addRole'"><i class="glyphicon glyphicon-plus"></i> 新增</button>
 <br>
  <hr style="clear:both;">
           <div class="table-responsive">
@@ -56,20 +56,20 @@
               <thead>
                 <tr >
                   <th width="30">#</th>
-				  <th width="30"><input type="checkbox"></th>
-                  <th>名称</th>
+				  <th width="30"><input type="checkbox" disabled="true"></th>
+                  <th>角色名称</th>
                   <th width="100">操作</th>
                 </tr>
               </thead>
               <tbody>
                 <c:forEach items="${ result.obj}" var="item" varStatus="status">
                 	<tr>
-	                  <td>${status.index+1+ (param.pageNum==null?0: (param.pageNum-1)*5) }</td>
-					  <td><input type="checkbox" class="checkRole" onclick="addDeleteRole(${item.id})" value="${item.id }"></td>
+	                  <td>${item.id }</td>
+					  <td><input type="checkbox" class="checkRole"  value="${item.id }"/></td>
 	                  <td>${item.name }</td>
 	                  <td>
 					      <button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>
-					      <button type="button" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>
+					      <button type="button" class="btn btn-primary btn-xs" onclick="editRoleX(${item.id },'${item.name }')"><i class=" glyphicon glyphicon-pencil"></i></button>
 						  <button type="button" class="btn btn-danger btn-xs" onclick="deleteRole(${item.id})"><i class=" glyphicon glyphicon-remove"></i></button>
 					  </td>
                	 </tr>
@@ -95,7 +95,7 @@
 	<script src="jquery/paging.js"></script>
 	<script type="text/javascript" src="layer/layer.js"></script>
         <script type="text/javascript">
-            $(function () {
+             $(function () {
 			    $(".list-group-item").click(function(){
 				    if ( $(this).find("ul") ) {
 						$(this).toggleClass("tree-closed");
@@ -106,15 +106,10 @@
 						}
 					}
 				});
-            });
+            }); 
             
             var ids="";
-       		
-            //每点击一次checkBox触发这个方法，
-            function addDeleteRole(id){
-            	//ids=ids+id+",";
-            }
-      
+       	 
             function DeleteSelectedRole(){
             	var a=$(".checkRole");
             	for(var i=0;i<a.length;i++){
@@ -130,24 +125,20 @@
 	              			//alert(result.code);
 	              			//成功用eaayui提示用户成功
 	              			if(result.code==200){
-	              				$.messager.show({  
-	              			        title:'删除成功',  
-	              			        msg:result.message,  
-	              			        showType:'show',
-	              			        timeout:2000
-	              			   }); 
+	              				alert(result.message);
 	              				window.location.href="role?pageNum=${param.pageNum}";
 	              			}else{
+	              				alert(result.message);
 	              				//失败用layer插件提示用户失败
-	              				layer.msg('用户名或者密码错误', {
+	              				/* layer.msg('用户名或者密码错误', {
 	              			    	    time: 5000, //20s后自动关闭
 	              			    	    icon:5,
-	              			    	   /*  shift:6, */
+	              			    	   /*  shift:6,  
 	              			    	    btn: ['明白了', '知道了']
-	              			    });
+	              			    }); */
 	              			}
 	              		},
-	              		"json"
+	           
 	             );
             	
             }
@@ -157,26 +148,29 @@
             		"role_deleteRole",
             		{"ids":id},
             		function(result){
-            			window.location.href="role?pageNum=${param.pageNum}";
             			//成功用eaayui提示用户成功
             			if(result.code==200){
-            				$.messager.show({  
+            				alert(result.message);
+            			window.location.href="role?pageNum=${param.pageNum}";
+            				/* $.messager.show({  
             			        title:'删除成功',  
             			        msg:result.message,  
             			        showType:'show',
             			        timeout:2000
-            			   }); 
+            			   });  */
             			}else{
+            				alert(result.message);
             				//失败用layer插件提示用户失败
-            				 layer.msg('用户名或者密码错误', {
+            				 /* layer.msg('用户名或者密码错误', {
             			    	    time: 5000, //20s后自动关闭
             			    	    icon:5,
-            			    	   /*  shift:6, */
+            			    	   /*  shift:6,  
             			    	    btn: ['明白了', '知道了']
-            			    	 });
+            			    	 }); */
+            			    	 
             			}
-            		},
-            		"json"
+            		}
+            		 
             	);
             }
      	 
@@ -185,13 +179,15 @@
      		 window.location.href="role?name="+name;
      		 
      	 }
-            
-            $("tbody .btn-success").click(function(){
-                window.location.href = "assignPermission.html";
-            });
-        </script>
+          
         
-         <script>
+     	 //修改角色
+     	 function editRoleX(id,name){
+     		 window.location.href="editRole?id="+id+"&name="+name;
+     	 }
+     	 
+     	 
+ 
     //分页
 	    $("#page").paging({
 	    	pageNo:${result.page},
