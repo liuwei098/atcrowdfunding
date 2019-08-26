@@ -41,12 +41,14 @@
  
           <%@ include file="../commons/commons.jsp" %>
         
+
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 			<div class="panel panel-default">
 			  <div class="panel-heading">
 				<h3 class="panel-title"><i class="glyphicon glyphicon-th"></i> 数据列表</h3>
 			  </div>
 			  <div class="panel-body">
+			  
 <form class="form-inline" role="form" style="float:left;">
   <div class="form-group has-feedback">
     <div class="input-group">
@@ -56,6 +58,7 @@
   </div>
   <button type="button" class="btn btn-warning" onclick="searchUser()"><i class="glyphicon glyphicon-search"></i> 查询</button>
 </form>
+
 <button type="button" class="btn btn-danger" style="float:right;margin-left:10px;" onclick="deleteAll()"><i class=" glyphicon glyphicon-remove"></i> 删除</button>
 <button type="button" class="btn btn-primary" style="float:right;" onclick="window.location.href='addUser'"><i class="glyphicon glyphicon-plus"></i> 新增</button>
 <br>
@@ -83,6 +86,7 @@
                   <td>${u.email }</td>
                   <td>
 				      <button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>
+
 				      <button type="button" class="btn btn-primary btn-xs"  onclick="editUser(${u.id },'${u.loginacct }','${u.username }','${u.email }' )" ><i class=" glyphicon glyphicon-pencil"></i></button>
 					  <button type="button" class="btn btn-danger btn-xs"  onclick="deleteUser(${u.id } )"><i class=" glyphicon glyphicon-remove"></i></button>
 				  </td>
@@ -103,6 +107,7 @@
     </div>
 	
     <script src="jquery/jquery-2.1.1.min.js"></script>
+
     <script type="text/javascript" src="easyui/js/jquery.easyui.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
 	<script src="script/docs.min.js"></script>
@@ -146,6 +151,7 @@
                 window.location.href = "assignRole.html";
             });
             
+
             //编辑用户
             function editUser(id,loginacct,username,email){
             	/* alert(loginacct); */
@@ -174,7 +180,7 @@
             	$.post( url,param,callback);
 
             }
-            
+  
             //根据多个id删除用户
           var ids = "";
           function deleteAll(){
