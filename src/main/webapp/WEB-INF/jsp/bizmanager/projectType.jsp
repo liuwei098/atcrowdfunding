@@ -30,8 +30,8 @@
 
     <div class="container-fluid">
       <div class="row">
-        <%@ include file="../commons/commons.jsp" %>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        	<%@ include file="../commons/commons.jsp" %>
 			<div class="panel panel-default">
 			  <div class="panel-heading">
 				<h3 class="panel-title"><i class="glyphicon glyphicon-th"></i> 数据列表</h3>
@@ -51,7 +51,7 @@
 <br>
  <hr style="clear:both;">
           <div class="table-responsive">
-            <table class="table  table-bordered">
+            <table class="table  table-bordered" id="tab">
               <thead>
                 <tr >
                   <th width="30">#</th>
@@ -69,7 +69,7 @@
 	                  <td>${type.name}</td>
 	                  <td>${type.remark}</td>
 	                  <td>
-					      <button type="button" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>
+					      <button type="button" class="btn btn-primary btn-xs" onclick="editTType(${type.id})"><i class=" glyphicon glyphicon-pencil"></i></button>
 						  <button type="button" class="btn btn-danger btn-xs" onclick="deleteTType(${type.id})"><i class=" glyphicon glyphicon-remove"></i></button>
 					  </td>
 	                </tr>
@@ -80,6 +80,67 @@
               </tfoot>
             </table>
             <div id="page" class="page_div"></div>
+            
+            
+            <!-- 修改项目分类的模态框 -->
+		<div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h3>修改项目分类</h3>
+					</div>
+					<div class="modal-body">
+						<form id="editForm" method="post" class="form-horizontal">
+							<div class="form-group" style="display:none">
+								<label for="editId" class="col-sm-2 control-label">ID</label>
+								<div class="col-sm-7">
+									<input type="id" name="id"   class="form-control" id="editId" placeholder="ID" />
+								</div>
+								<label id="errorId" for="editId" class="col-sm-3 control-label"></label>
+							</div>
+							<div class="form-group">
+								<label for="inputAccount" class="col-sm-2 control-label">类型名</label>
+								<div class="col-sm-7">
+									<input name="name" class="form-control" id="editAccount" placeholder="类型名"/>
+								</div>
+								<label id="errorAccount" for="inputAccount" class="col-sm-3 control-label"></label>
+							</div>
+							<div class="form-group" >
+								<label for="inputPassword" class="col-sm-2 control-label">描述</label>
+								<div class="col-sm-7">
+									<input type="text" name="remark" class="form-control" id="editPassword" placeholder="描述"/>
+								</div>
+								<label id="errorPassword" for="inputPassword" class="col-sm-3 control-label"></label>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" id="conf" class="btn btn-default" onclick="updateUser()">确定</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal" οnclick="resetAddModal()">取消</button>
+					</div>
+				</div>				
+			</div>
+		</div>
+
+ 		<div class="modal fade" id="updateEnd" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h3>提示</h3>
+					</div>
+					<div class="modal-body" align="center">
+						<h4 id="al">修改成功</h4>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal" onclick="reflash()">确定</button>
+					</div>
+				</div>
+			</div>
+		</div>
+ 
+            
+            
+            
           </div>
 			  </div>
 			</div>
@@ -105,6 +166,42 @@
 					}
 				});
             });
+            
+            
+          //修改
+        	function editTType(id){
+        		 $("#tab").on("click", ":button", function(event){
+        			 $("#editId").val(id);
+        		     $("#editAccount").val($(this).closest("tr").find("td").eq(2).text());
+        		     $("#editPassword").val($(this).closest("tr").find("td").eq(3).text());
+        		     $("#editModal").modal("show");
+        		 });
+        	}
+          
+        	function updateUser(){
+        		var param = $("#editForm").serializeArray();
+        		//设为disable则无法获取
+        		$.ajax({
+					url:"updateTType",
+					method:"post",
+					data:param,
+					dataType:"json",
+					success:function(result){
+						if(result.message=="success"){
+							$("#editModal").modal("hide");
+							$("#updateEnd").modal('show');
+						}
+					},
+					error:function(result){
+						alert("wrong");
+					}
+				});
+        	}
+
+        	//刷新
+            function reflash(){
+            	window.location.href="project_type?pageNum=${param.pageNum}";
+        	}
             
             function DeleteSelectedType(){
             	var a=$(".checktype");
@@ -145,7 +242,6 @@
             }
             
             function deleteTType(id){
-            	alert(id);
             	$.post(
            			"deleteType",
                		{"ids":id},
@@ -173,8 +269,6 @@
             	);
             }
             
-
-
         	function searchType(){
              	var name=$("#search").val();
         		window.location.href="project_type?name="+name;

@@ -101,4 +101,16 @@ public class ProjectTypeBiz {
 			tm.deleteByPrimaryKey(Integer.parseInt(id));
 		}
 	}
+	
+	/**
+	 * 修改分类
+	 * @param id 
+	 */
+	@Transactional
+	public int updateType(TType ttype){
+		TTypeExample example=new TTypeExample();
+		example.createCriteria().andIdEqualTo(ttype.getId());
+		int result=tm.updateByExample(ttype, example);
+		return result;
+	}
 }

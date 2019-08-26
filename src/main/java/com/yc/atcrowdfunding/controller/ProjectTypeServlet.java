@@ -1,24 +1,41 @@
 package com.yc.atcrowdfunding.controller;
 
 
+import java.util.List;
+
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yc.atcrowdfunding.bean.TPermission;
 import com.yc.atcrowdfunding.bean.TType;
+import com.yc.atcrowdfunding.biz.PermissionBiz;
 import com.yc.atcrowdfunding.biz.ProjectTypeBiz;
 import com.yc.atcrowdfunding.vo.Result;
+
 
 @Controller
 public class ProjectTypeServlet {
 	
 	@Resource
 	private ProjectTypeBiz ptb;
+	
+	@Resource
+	private PermissionBiz pbiz;
+	
+
+	@ModelAttribute("menus")
+	public  List<TPermission> init(HttpSession session){
+		return  pbiz.findAllMenu();
+		 
+	}
 	
 	/**
 	 * 分页查询所有项目分类
@@ -87,7 +104,23 @@ public class ProjectTypeServlet {
 	/**
 	 * 修改操作
 	 */
-	public String updateType(){
-		return "";
+	@PostMapping("updateTType")
+	@ResponseBody
+	public Result updateType(TType ttype,Model model){
+		System.out.println(1111);
+		System.out.println(ttype.getName()+ttype.getRemark()+ttype.getId());
+		Result result=new Result();
+		try{
+			ptb.updateType(ttype);
+			result.setMessage("success");
+		}catch(RuntimeException e){
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	@RequestMapping("test")
+	public String toTest(){
+		return "bizmanager/test";
 	}
 }
