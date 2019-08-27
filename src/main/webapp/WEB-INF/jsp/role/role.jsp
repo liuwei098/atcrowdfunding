@@ -27,6 +27,7 @@
 
   <body>
 
+<<<<<<< HEAD
     <%pageContext.setAttribute("info","角色维护"); %>
     
     
@@ -214,4 +215,4 @@
 	</script>
   </body>
 </html>
-
+ 
