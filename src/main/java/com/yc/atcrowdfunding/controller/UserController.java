@@ -64,7 +64,7 @@ public class UserController {
 	@RequestMapping("deleteUser")
 	@ResponseBody
 	public Result deleteUser(String  ids) {
-		 System.out.println("id 是   "+ids);
+		// System.out.println("id 是   "+ids);
 		Result result = new Result();
 		try {
 			//ubiz.deleteUserById(ids);
@@ -132,5 +132,18 @@ public class UserController {
 		}
 		return result;
 	}
+	
+	
+	//  为用户 设置权限 assignRole
+	@RequestMapping("assignRole")
+	public String assignRole() {
+		return "user/assignRole";
+	}
+	
+	
+	
+	
+	
+	
 	
 }

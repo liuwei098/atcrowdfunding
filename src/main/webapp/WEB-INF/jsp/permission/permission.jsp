@@ -24,6 +24,9 @@
 
   <body>
 
+	<%pageContext.setAttribute("info","许可维护"); %>
+	
+
     <%@ include file="../commons/header.jsp" %>
 
     <div class="container-fluid">
@@ -274,152 +277,18 @@
 			} ]; 
 				
 				
-				/* var d =
-				[ {
-				"id" : 1,
-				"pid" : 0,
-				"seqno" : 0,
-				"name" : "系统权限菜单",
-				"url" : null,
-				"icon" : "fa fa-sitemap",
-				"open" : true,
-				"checked" : false,
-				"children" : [
-						{
-							"id" : 2,
-							"pid" : 1,
-							"seqno" : 0,
-							"name" : "控制面板",
-							"url" : "dashboard.htm",
-							"icon" : "fa fa-desktop",
-							"open" : true,
-							"checked" : false,
-							"children" : []
-						},
-						{
-							"id" : 6,
-							"pid" : 1,
-							"seqno" : 1,
-							"name" : "消息管理",
-							"url" : "message/index.htm",
-							"icon" : "fa fa-weixin",
-							"open" : true,
-							"checked" : false,
-							"children" : []
-						},
-						{
-							"id" : 7,
-							"pid" : 1,
-							"seqno" : 1,
-							"name" : "权限管理",
-							"url" : "",
-							"icon" : "fa fa-cogs",
-							"open" : true,
-							"checked" : false,
-							"children" : [
-									{
-										"id" : 8,
-										"pid" : 7,
-										"seqno" : 1,
-										"name" : "用户管理",
-										"url" : "user/index.htm",
-										"icon" : "fa fa-user",
-										"open" : true,
-										"checked" : false,
-										"children" : []
-									},
-									{
-										"id" : 9,
-										"pid" : 7,
-										"seqno" : 1,
-										"name" : "角色管理",
-										"url" : "role/index.htm",
-										"icon" : "fa fa-graduation-cap",
-										"open" : true,
-										"checked" : false,
-										"children" : []
-									},
-									{
-										"id" : 10,
-										"pid" : 7,
-										"seqno" : 1,
-										"name" : "许可管理",
-										"url" : "permission/index.htm",
-										"icon" : "fa fa-check-square-o",
-										"open" : true,
-										"checked" : false,
-										"children" : []
-									} ]
-						},
-						{
-							"id" : 11,
-							"pid" : 1,
-							"seqno" : 1,
-							"name" : "资质管理",
-							"url" : "",
-							"icon" : "fa fa-certificate",
-							"open" : true,
-							"checked" : false,
-							"children" : [
-									{
-										"id" : 12,
-										"pid" : 11,
-										"seqno" : 1,
-										"name" : "分类管理",
-										"url" : "cert/type.htm",
-										"icon" : "fa fa-th-list",
-										"open" : true,
-										"checked" : false,
-										"children" : []
-									},
-									{
-										"id" : 13,
-										"pid" : 11,
-										"seqno" : 1,
-										"name" : "资质管理",
-										"url" : "cert/index.htm",
-										"icon" : "fa fa-certificate",
-										"open" : true,
-										"checked" : false,
-										"children" : []
-									} ]
-						},
-						{
-							"id" : 15,
-							"pid" : 1,
-							"seqno" : 1,
-							"name" : "流程管理",
-							"url" : "process/index.htm",
-							"icon" : "fa fa-random",
-							"open" : true,
-							"checked" : false,
-							"children" : []
-						},
-						{
-							"id" : 16,
-							"pid" : 1,
-							"seqno" : 1,
-							"name" : "审核管理",
-							"url" : "",
-							"icon" : "fa fa-check-square",
-							"open" : true,
-							"checked" : false,
-							"children" : [ {
-								"id" : 17,
-								"pid" : 16,
-								"seqno" : 1,
-								"name" : "实名认证人工审核",
-								"url" : "process/cert.htm",
-								"icon" : "fa fa-check-circle-o",
-								"open" : true,
-								"checked" : false,
-								"children" : []
-							} ]
-						} ]
-			} ]; */
+				 
 			$.fn.zTree.init($("#treeDemo"),
 					setting, d);
 		});
+            
+            $("a[href='permission']").css("color","red");
+    	    //用户维护 样式设置
+          
+           $("a[href='permission']").parents("list-group-item").removeClass("tree-closed");
+           $("a[href='permission']").parent().parent("ul").show();
+            
+            
 	</script>
   </body>
 </html>

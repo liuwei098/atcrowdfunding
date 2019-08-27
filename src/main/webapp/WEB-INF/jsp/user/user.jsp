@@ -33,6 +33,8 @@
 
   <body>
 
+	<%pageContext.setAttribute("info","用户维护"); %>
+
     <%@ include file="../commons/header.jsp" %>
 
     <div class="container-fluid">
@@ -51,7 +53,7 @@
   <div class="form-group has-feedback">
     <div class="input-group">
       <div class="input-group-addon">查询条件</div>
-      <input class="form-control has-success" type="text" placeholder="请输入查询条件" id="uname">
+      <input class="form-control has-success" type="text" placeholder="请输入查询条件(用户名称)" id="uname">
     </div>
   </div>
   <button type="button" class="btn btn-warning" onclick="searchUser()"><i class="glyphicon glyphicon-search"></i> 查询</button>
@@ -67,7 +69,7 @@
                   <th width="30">#</th>
 				  <th width="30"><input type="checkbox" disabled="true"></th>
                   <th>账号</th>
-                  <th>名称</th>
+                  <th>用户名称</th>
                   <th>邮箱地址</th>
                   <th width="100">操作</th>
                 </tr>
@@ -143,7 +145,7 @@
             
             $("tbody .btn-success").click(function(){
             	
-                window.location.href = "assignRole.html";
+                window.location.href = "assignRole";
             });
             
             //编辑用户
@@ -201,6 +203,13 @@
         	 $.post(url,param,callback);
           }
            
+          //用户维护 样式设置
+          $("a[href='user']").css("color","red");
+          $("a[href='user']").parents("list-group-item").removeClass("tree-closed");
+          $("a[href='user']").parent().parent("ul").show();
+          
+          
+          
         </script>
   </body>
 </html>

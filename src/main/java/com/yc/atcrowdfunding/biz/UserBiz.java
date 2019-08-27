@@ -33,7 +33,7 @@ public class UserBiz {
 	 */
 	public Result findAllUser(int pageNum,int pageSize,String name) {
 		TUserExample example = null;
-		if(name!=null && !"".equals(name)) {
+		if(name!=null && !"".equals(name.trim())) {
 			example = new TUserExample();
 			example.createCriteria().andUsernameLike("%"+name+"%");
 		}
@@ -66,7 +66,7 @@ public class UserBiz {
 		String uisd[] = ids.split(",");
 		for (String i : uisd) {
 			/* System.out.println("=="+i); */
-			//tum.deleteByPrimaryKey(Integer.parseInt(i));
+			tum.deleteByPrimaryKey(Integer.parseInt(i));
 		}
 	}
 	
