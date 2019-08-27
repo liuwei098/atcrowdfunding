@@ -100,7 +100,7 @@
 				});
             });
             
-            
+            //添加角色
             function addRoleX(){
             	var roleName = $("#roleName").val();
               

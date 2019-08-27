@@ -109,7 +109,7 @@ public class UserController {
 		return "user/addUser";
 	}
 	
-	
+	//处理新增用户
 	@RequestMapping("addUserX")
 	@ResponseBody
 	public Result addUserX(String loginacct,String username,String password,String email) {
@@ -139,11 +139,6 @@ public class UserController {
 	public String assignRole() {
 		return "user/assignRole";
 	}
-	
-	
-	
-	
-	
-	
+ 	
 	
 }

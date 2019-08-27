@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"%>
 <!DOCTYPE html>
 <html lang="UTF-8">
   <head>
@@ -12,6 +13,7 @@
 	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/font-awesome.min.css">
 	<link rel="stylesheet" href="css/main.css">
+	<link rel="stylesheet" href="css/pageStyle.css">
 	<style>
 	.tree li {
         list-style-type: none;
@@ -23,109 +25,13 @@
   </head>
 
   <body>
-
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <div><a class="navbar-brand" style="font-size:32px;" href="#">众筹平台 - 项目分类</a></div>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li style="padding-top:8px;">
-				<div class="btn-group">
-				  <button type="button" class="btn btn-default btn-success dropdown-toggle" data-toggle="dropdown">
-					<i class="glyphicon glyphicon-user"></i> 张三 <span class="caret"></span>
-				  </button>
-					  <ul class="dropdown-menu" role="menu">
-						<li><a href="#"><i class="glyphicon glyphicon-cog"></i> 个人设置</a></li>
-						<li><a href="#"><i class="glyphicon glyphicon-comment"></i> 消息</a></li>
-						<li class="divider"></li>
-						<li><a href="index.html"><i class="glyphicon glyphicon-off"></i> 退出系统</a></li>
-					  </ul>
-			    </div>
-			</li>
-            <li style="margin-left:10px;padding-top:8px;">
-				<button type="button" class="btn btn-default btn-danger">
-				  <span class="glyphicon glyphicon-question-sign"></span> 帮助
-				</button>
-			</li>
-          </ul>
-          <form class="navbar-form navbar-right">
-            <input type="text" class="form-control" placeholder="Search...">
-          </form>
-        </div>
-      </div>
-    </nav>
+	
+	<%@ include file="../commons/header.jsp" %>
 
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar">
-			<div class="tree">
-				<ul style="padding-left:0px;" class="list-group">
-					<li class="list-group-item tree-closed" >
-						<a href="main.html"><i class="glyphicon glyphicon-dashboard"></i> 控制面板</a> 
-					</li>
-					<li class="list-group-item tree-closed">
-						<span><i class="glyphicon glyphicon glyphicon-tasks"></i> 权限管理 <span class="badge" style="float:right">3</span></span> 
-						<ul style="margin-top:10px;display:none;">
-							<li style="height:30px;">
-								<a href="user.html"><i class="glyphicon glyphicon-user"></i> 用户维护</a> 
-							</li>
-							<li style="height:30px;">
-								<a href="role.html"><i class="glyphicon glyphicon-king"></i> 角色维护</a> 
-							</li>
-							<li style="height:30px;">
-								<a href="permission.html"><i class="glyphicon glyphicon-lock"></i> 许可维护</a> 
-							</li>
-						</ul>
-					</li>
-					<li class="list-group-item tree-closed">
-						<span><i class="glyphicon glyphicon-ok"></i> 业务审核 <span class="badge" style="float:right">3</span></span> 
-						<ul style="margin-top:10px;display:none;">
-							<li style="height:30px;">
-								<a href="auth_cert.html"><i class="glyphicon glyphicon-check"></i> 实名认证审核</a> 
-							</li>
-							<li style="height:30px;">
-								<a href="auth_adv.html"><i class="glyphicon glyphicon-check"></i> 广告审核</a> 
-							</li>
-							<li style="height:30px;">
-								<a href="auth_project.html"><i class="glyphicon glyphicon-check"></i> 项目审核</a> 
-							</li>
-						</ul>
-					</li>
-					<li class="list-group-item">
-						<span><i class="glyphicon glyphicon-th-large"></i> 业务管理 <span class="badge" style="float:right">7</span></span> 
-						<ul style="margin-top:10px;">
-							<li style="height:30px;">
-								<a href="cert.html"><i class="glyphicon glyphicon-picture"></i> 资质维护</a> 
-							</li>
-							<li style="height:30px;">
-								<a href="type.html"><i class="glyphicon glyphicon-equalizer"></i> 分类管理</a> 
-							</li>
-							<li style="height:30px;">
-								<a href="process.html"><i class="glyphicon glyphicon-random"></i> 流程管理</a> 
-							</li>
-							<li style="height:30px;">
-								<a href="advertisement.html"><i class="glyphicon glyphicon-hdd"></i> 广告管理</a> 
-							</li>
-							<li style="height:30px;">
-								<a href="message.html"><i class="glyphicon glyphicon-comment"></i> 消息模板</a> 
-							</li>
-							<li style="height:30px;">
-								<a href="project_type.html" style="color:red;"><i class="glyphicon glyphicon-list"></i> 项目分类</a> 
-							</li>
-							<li style="height:30px;">
-								<a href="tag.html"><i class="glyphicon glyphicon-tags"></i> 项目标签</a> 
-							</li>
-						</ul>
-					</li>
-					<li class="list-group-item tree-closed" >
-						<a href="param.html"><i class="glyphicon glyphicon-list-alt"></i> 参数管理</a> 
-					</li>
-				</ul>
-			</div>
-        </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        	<%@ include file="../commons/commons.jsp" %>
 			<div class="panel panel-default">
 			  <div class="panel-heading">
 				<h3 class="panel-title"><i class="glyphicon glyphicon-th"></i> 数据列表</h3>
@@ -135,17 +41,17 @@
   <div class="form-group has-feedback">
     <div class="input-group">
       <div class="input-group-addon">查询条件</div>
-      <input class="form-control has-success" type="text" placeholder="请输入查询条件">
+      <input id="search" class="form-control has-success" type="text" placeholder="请输入查询条件">
     </div>
   </div>
-  <button type="button" class="btn btn-warning"><i class="glyphicon glyphicon-search"></i> 查询</button>
+  <button type="button" class="btn btn-warning" onclick="searchType()"><i class="glyphicon glyphicon-search"></i> 查询</button>
 </form>
-<button type="button" class="btn btn-danger" style="float:right;margin-left:10px;"><i class=" glyphicon glyphicon-remove"></i> 删除</button>
-<button type="button" class="btn btn-primary" style="float:right;" onclick="window.location.href='form.html'"><i class="glyphicon glyphicon-plus"></i> 新增</button>
+<button type="button" class="btn btn-danger" style="float:right;margin-left:10px;" onclick="DeleteSelectedType()"><i class=" glyphicon glyphicon-remove"></i> 删除</button>
+<button type="button" class="btn btn-primary" style="float:right;" onclick="window.location.href='form'"><i class="glyphicon glyphicon-plus"></i> 新增</button>
 <br>
  <hr style="clear:both;">
           <div class="table-responsive">
-            <table class="table  table-bordered">
+            <table class="table  table-bordered" id="tab">
               <thead>
                 <tr >
                   <th width="30">#</th>
@@ -156,39 +62,85 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1</td>
-				  <td><input type="checkbox"></td>
-                  <td>科技</td>
-                  <td>xxxxx</td>
-                  <td>
-				      <button type="button" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>
-					  <button type="button" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>
-				  </td>
-                </tr>
-                <tr>
-                  <td>2</td>
-				  <td><input type="checkbox"></td>
-                  <td>农业</td>
-                  <td>xxxxx</td>
-                  <td>
-				      <button type="button" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>
-					  <button type="button" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>
-				  </td>
-                </tr>
-                <tr>
-                  <td>3</td>
-				  <td><input type="checkbox"></td>
-                  <td>电子</td>
-                  <td>xxxxx</td>
-                  <td>
-				      <button type="button" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>
-					  <button type="button" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>
-				  </td>
-                </tr>
-
+              	<c:forEach items="${result.obj}" var="type" varStatus="status">
+              		<tr>
+	                  <td>${status.index+1+ (param.pageNum==null?0: (param.pageNum-1)*5) }</td>
+					  <td><input type="checkbox" class="checktype" value="${type.id}"></td>
+	                  <td>${type.name}</td>
+	                  <td>${type.remark}</td>
+	                  <td>
+					      <button type="button" class="btn btn-primary btn-xs" onclick="editTType(${type.id})"><i class=" glyphicon glyphicon-pencil"></i></button>
+						  <button type="button" class="btn btn-danger btn-xs" onclick="deleteTType(${type.id})"><i class=" glyphicon glyphicon-remove"></i></button>
+					  </td>
+	                </tr>
+              	</c:forEach>
               </tbody>
+              <tfoot>
+              
+              </tfoot>
             </table>
+            <div id="page" class="page_div"></div>
+            
+            
+            <!-- 修改项目分类的模态框 -->
+		<div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h3>修改项目分类</h3>
+					</div>
+					<div class="modal-body">
+						<form id="editForm" method="post" class="form-horizontal">
+							<div class="form-group" style="display:none">
+								<label for="editId" class="col-sm-2 control-label">ID</label>
+								<div class="col-sm-7">
+									<input type="id" name="id"   class="form-control" id="editId" placeholder="ID" />
+								</div>
+								<label id="errorId" for="editId" class="col-sm-3 control-label"></label>
+							</div>
+							<div class="form-group">
+								<label for="inputAccount" class="col-sm-2 control-label">类型名</label>
+								<div class="col-sm-7">
+									<input name="name" class="form-control" id="editAccount" placeholder="类型名"/>
+								</div>
+								<label id="errorAccount" for="inputAccount" class="col-sm-3 control-label"></label>
+							</div>
+							<div class="form-group" >
+								<label for="inputPassword" class="col-sm-2 control-label">描述</label>
+								<div class="col-sm-7">
+									<input type="text" name="remark" class="form-control" id="editPassword" placeholder="描述"/>
+								</div>
+								<label id="errorPassword" for="inputPassword" class="col-sm-3 control-label"></label>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" id="conf" class="btn btn-default" onclick="updateUser()">确定</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal" οnclick="resetAddModal()">取消</button>
+					</div>
+				</div>				
+			</div>
+		</div>
+
+ 		<div class="modal fade" id="updateEnd" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h3>提示</h3>
+					</div>
+					<div class="modal-body" align="center">
+						<h4 id="al">修改成功</h4>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal" onclick="reflash()">确定</button>
+					</div>
+				</div>
+			</div>
+		</div>
+ 
+            
+            
+            
           </div>
 			  </div>
 			</div>
@@ -197,8 +149,10 @@
     </div>
 
     <script src="jquery/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="easyui/js/jquery.easyui.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
 	<script src="script/docs.min.js"></script>
+	<script src="jquery/paging.js"></script>
         <script type="text/javascript">
             $(function () {
 			    $(".list-group-item").click(function(){
@@ -212,6 +166,123 @@
 					}
 				});
             });
+            
+            
+          //修改
+        	function editTType(id){
+        		 $("#tab").on("click", ":button", function(event){
+        			 $("#editId").val(id);
+        		     $("#editAccount").val($(this).closest("tr").find("td").eq(2).text());
+        		     $("#editPassword").val($(this).closest("tr").find("td").eq(3).text());
+        		     $("#editModal").modal("show");
+        		 });
+        	}
+          
+        	function updateUser(){
+        		var param = $("#editForm").serializeArray();
+        		//设为disable则无法获取
+        		$.ajax({
+					url:"updateTType",
+					method:"post",
+					data:param,
+					dataType:"json",
+					success:function(result){
+						if(result.message=="success"){
+							$("#editModal").modal("hide");
+							$("#updateEnd").modal('show');
+						}
+					},
+					error:function(result){
+						alert("wrong");
+					}
+				});
+        	}
+
+        	//刷新
+            function reflash(){
+            	window.location.href="project_type?pageNum=${param.pageNum}";
+        	}
+            
+            function DeleteSelectedType(){
+            	var a=$(".checktype");
+            	var ids='';
+            	for(var i=0;i<a.length;i++){
+            		if(a[i].checked){
+            			ids=ids+a[i].value+",";
+            		}
+            	}
+            /* 	QC - 品质控制
+            	CMO / CMS - 配置管理员 */
+           		$.post(
+	              		"deleteType",
+	              		{"ids":ids},
+	              		function(result){
+	              			//成功用eaayui提示用户成功
+	              			if(result.code==200){
+	              				$.messager.show({  
+	              			        title:'删除成功',  
+	              			        msg:result.message,  
+	              			        showType:'show',
+	              			        timeout:2000
+	              			   }); 
+	              				window.location.href="project_type?pageNum=${param.pageNum}";
+	              			}else{
+	              				//失败用layer插件提示用户失败
+	              				layer.msg('用户名或者密码错误', {
+	              			    	    time: 5000, //20s后自动关闭
+	              			    	    icon:5,
+	              			    	   /*  shift:6, */
+	              			    	    btn: ['明白了', '知道了']
+	              			    });
+	              			}
+	              		},
+	              		"json"
+	             );
+            	
+            }
+            
+            function deleteTType(id){
+            	$.post(
+           			"deleteType",
+               		{"ids":id},
+               		function(result){
+               			window.location.href="project_type?pageNum=${param.pageNum}";
+               			//成功用eaayui提示用户成功
+               			if(result.code==200){
+               				$.messager.show({  
+               			        title:'删除成功',  
+               			        msg:result.message,  
+               			        showType:'show',
+               			        timeout:2000
+               			   }); 
+               			}else{
+               				//失败用layer插件提示用户失败
+               				 layer.msg('用户名或者密码错误', {
+               			    	    time: 5000, //20s后自动关闭
+               			    	    icon:5,
+               			    	   /*  shift:6, */
+               			    	    btn: ['明白了', '知道了']
+               			    	 });
+               			}
+               		},
+               		"json"
+            	);
+            }
+            
+        	function searchType(){
+             	var name=$("#search").val();
+        		window.location.href="project_type?name="+name;
+            }
+            
+            //分页
+    	    $("#page").paging({
+    	    	pageNo:${result.page},
+    	        totalPage:${result.totalPage} ,
+    	        totalSize:${result.total},
+    	        callback: function(num) {
+    	        	window.location.href="project_type?pageNum="+num;	    
+    	        	}
+    	    })
         </script>
   </body>
 </html>

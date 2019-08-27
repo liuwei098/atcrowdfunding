@@ -6,7 +6,7 @@ spring:
          suffix: .jsp
       
    datasource:
-      url: jdbc:mysql://127.0.0.1:3306/atcrowdfunding?characterEncoding=utf-8
+      url: jdbc:mysql://127.0.0.1:3306/atcrowdfunding
       username: root
       password: mysql
       driver-class-name: com.mysql.jdbc.Driver
@@ -16,21 +16,23 @@ spring:
          force: true
          charset: UTF-8
          enabled: true
-         
+   
    resources:
-     staticLocations:
-       - classpath:/static/
-       - file:/D:/blog/
+   # web 文件映射 （数组）
+      staticLocations:
+         - file:/d:/blog/
+         - classpath:/static/
+         - classpath:/resources/
 
 
    # 邮件服务配置
    mail: 
       # 邮箱服务器地址
-      host: smtp.qq.com
+      host: smtp.163.com
       # 用户名
-      username: 2271020426@qq.com
+      username: q1095701116@163.com
       # 发送密码
-      password: xjmmznpfrsnvebjh
+      password: xh3526
       # 默认字符集编码
       default-encoding: UTF-8
       
@@ -42,7 +44,7 @@ spring:
 # 发送地址
 mail:
    fromMail:
-      addr: 2271020426@qq.com
+      addr: q1095701116@163.com
       
       
 
