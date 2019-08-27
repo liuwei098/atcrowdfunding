@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 /*!
  * Infinite Ajax Scroll v2.3.1
  * A jQuery plugin for infinite scrolling
@@ -11,6 +12,20 @@
  *
  * Copyright (c) 2018 Webcreate (Jeroen Fiege)
  */
+=======
+/*!
+ * Infinite Ajax Scroll v2.3.1
+ * A jQuery plugin for infinite scrolling
+ * https://infiniteajaxscroll.com
+ *
+ * Commercial use requires one-time purchase of a commercial license
+ * https://infiniteajaxscroll.com/docs/license.html
+ *
+ * Non-commercial use is licensed under the MIT License
+ *
+ * Copyright (c) 2018 Webcreate (Jeroen Fiege)
+ */
+>>>>>>> branch 'master' of https://github.com/liuwei098/atcrowdfunding.git
 =======
 /*!
  * Infinite Ajax Scroll v2.3.1

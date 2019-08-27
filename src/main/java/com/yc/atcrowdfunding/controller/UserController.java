@@ -30,8 +30,14 @@ public class UserController {
 	
 	@Resource
 	private PermissionBiz pbiz;
-	
+	/*
+	 * @ModelAttribute("menus") public List<TPermission> init(HttpSession session){
+	 * return pbiz.findAllMenu();
+	 * 
+	 * }
+	 */
 	 
+	
 	
 	@RequestMapping("main")
 	public String user(TUser user,HttpSession session){
