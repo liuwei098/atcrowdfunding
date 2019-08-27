@@ -31,19 +31,12 @@ public class UserController {
 	@Resource
 	private PermissionBiz pbiz;
 	
-	@ModelAttribute("menus")
-	public  List<TPermission> init(HttpSession session){
-		return  pbiz.findAllMenu();
-		 
-	}
-	
 	 
-	
 	
 	@RequestMapping("main")
 	public String user(TUser user,HttpSession session){
-		//List<TPermission> list=pbiz.findAllMenu();
-		//session.setAttribute("menus", list);
+		List<TPermission> list=pbiz.findAllMenu();
+		session.setAttribute("menus", list);
 		return "user/main";
 	}
 	
@@ -54,8 +47,7 @@ public class UserController {
 		
 		Result result = ubiz.findAllUser(pageNum, pageSize, name);
 		model.addAttribute("result", result);
-		//List<TPermission> list=pbiz.findAllMenu();
-		//session.setAttribute("menus", list);
+		 
 		return "user/user";
 	}
 	

@@ -127,24 +127,27 @@
             	} else if(!email.match(re)){
             		$("#emialFormat").text("请输入合法的邮箱地址, 格式为： xxxx@xxxx.com");
             		 
-            	}  
-            	
-            	
-            	var url = "addUserX"
-            	var param={"loginacct":loginacct,"username":username,"password":password,"email":email}
-            	var callback = function(result){
-            		if(result.code==200){
-            			alert(result.message);
-            			window.location.href="user?pageNum=1"; 
-            		}else if(result.code==0){
-            			alert(result.message);
-            			 
-            		}else{
-            			alert(reuslt.message);
-            		}
+            	}else{
+            		
+            		var url = "addUserX"
+                    	var param={"loginacct":loginacct,"username":username,"password":password,"email":email}
+                    	var callback = function(result){
+                    		if(result.code==200){
+                    			alert(result.message);
+                    			window.location.href="user?pageNum=1"; 
+                    		}else if(result.code==0){
+                    			alert(result.message);
+                    			 
+                    		}else{
+                    			alert(reuslt.message);
+                    		}
+                    	}
+                    	$.post(url,param,callback);
+                    	 
             	}
-            	$.post(url,param,callback);
-            	 
+            	
+            	
+            
             }
             
             

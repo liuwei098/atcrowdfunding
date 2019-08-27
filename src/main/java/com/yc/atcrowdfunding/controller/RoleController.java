@@ -25,15 +25,7 @@ public class RoleController {
 	
 	@Resource
 	private PermissionBiz pbiz;
-	
-	
-	@ModelAttribute("menus")
-	public  List<TPermission> init(HttpSession session){
-		return  pbiz.findAllMenu();
-		 
-	}
-	
-	
+	 
 	@RequestMapping("role")
 	public String role(@RequestParam(defaultValue="1") int pageNum,@RequestParam(defaultValue="5") int pageSize,
 			String name,Model model){
