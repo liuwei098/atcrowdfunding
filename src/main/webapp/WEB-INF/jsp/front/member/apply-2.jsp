@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
   <head>
@@ -35,16 +36,16 @@
 		  <li role="presentation"><a href="#"><span class="badge">4</span> 申请确认</a></li>
 		</ul>
         
-		<form role="form" style="margin-top:20px;">
+		<form:form  style="margin-top:20px;" action="pushIconpath" enctype="multipart/form-data">
 		  <div class="form-group">
-			<label for="exampleInputEmail1">手执身份证照片</label>
-			<input type="file" class="form-control" >
+			<label for="exampleInputEmail1">手执相关证件照片</label>
+			<input type="file" class="form-control" id="file" name="iconpath">
             <br>
-            <img src="img/pic.jpg">
+            <img src="img/pic.jpg" id="image">
 		  </div>
           <button type="button" onclick="window.location.href='member_apply-1'" class="btn btn-default">上一步</button>
-		  <button type="button" onclick="window.location.href='member_apply-3'"  class="btn btn-success">下一步</button>
-		</form>
+		  <input type="submit"   class="btn btn-success" value="下一步">
+		</form:form>
 		<hr>
     </div> <!-- /container -->
         <div class="container" style="margin-top:20px;">
@@ -69,7 +70,19 @@
         $('#myTab a').click(function (e) {
           e.preventDefault()
           $(this).tab('show')
-        });        
+        });   
+        
+       
+        
+        //图片回显js
+        document.getElementById('file').onchange = function() {
+		    var imgFile = this.files[0];
+		    var fr = new FileReader();
+		    fr.onload = function() {
+		        document.getElementById('image').src = fr.result;
+		    };
+		    fr.readAsDataURL(imgFile);
+		};
 	</script>
   </body>
 </html>

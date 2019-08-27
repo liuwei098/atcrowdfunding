@@ -40,7 +40,7 @@
 			<input type="text" class="form-control" id="exampleInputEmail1" placeholder="请输入你邮箱中接收到的验证码">
 		  </div>
           <button type="button" onclick="javascript:;" class="btn btn-primary">重新发送验证码</button>
-		  <button type="button" onclick="window.location.href='member_accttype'"  class="btn btn-success">申请完成</button>
+		  <button type="button" onclick="checkEmailCode()"  class="btn btn-success">申请完成</button>
 		</form>
 		<hr>
     </div> <!-- /container -->
@@ -62,11 +62,38 @@
     <script src="jquery/jquery-2.1.1.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
 	<script src="script/docs.min.js"></script>
+	<script type="text/javascript" src="layer/layer.js"></script>
 	<script>
         $('#myTab a').click(function (e) {
           e.preventDefault()
           $(this).tab('show')
-        });        
+        });   
+        
+        function checkEmailCode(){
+        	var code=$("#exampleInputEmail1").val();
+        	$.post(
+        		"apply_checkEmailCode",
+        		{"code":code},
+        		function(data){
+        			if(data.code==1){
+        				 layer.msg(data.message, {
+     			    	    time: -1, //20s后自动关闭
+     			    	    icon:1,
+     			    	   /*  shift:6, */
+     			    	    btn: ['<a href="member">'+'确定</a>']
+     			    	 });
+        				// window.location.href="member";
+        			}else{
+	       				 layer.msg(data.message, {
+	  			    	    time: -1, //20s后自动关闭
+	  			    	    icon:5,
+	  			    	   /*  shift:6, */
+	  			    	    btn: ['明白了', '知道了']
+	  			    	 });
+     				}
+        		}
+        	);
+        }
 	</script>
   </body>
 </html>

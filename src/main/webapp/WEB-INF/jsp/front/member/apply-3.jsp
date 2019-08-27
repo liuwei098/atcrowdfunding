@@ -36,11 +36,11 @@
         
 		<form role="form" style="margin-top:20px;">
 		  <div class="form-group">
-			<label for="exampleInputEmail1">邮箱地址</label>
+			<label for="exampleInputEmail1" >邮箱地址</label>
 			<input type="text" class="form-control" id="exampleInputEmail1" placeholder="请输入用于接收验证码的邮箱地址">
 		  </div>
           <button type="button" onclick="window.location.href='member_apply-2'" class="btn btn-default">上一步</button>
-		  <button type="button" onclick="window.location.href='member_apply-4'"  class="btn btn-success">下一步</button>
+		  <button type="button" onclick="sendMail()"  class="btn btn-success">下一步</button>
 		</form>
 		<hr>
     </div> <!-- /container -->
@@ -62,11 +62,43 @@
     <script src="jquery/jquery-2.1.1.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
 	<script src="script/docs.min.js"></script>
+	<script type="text/javascript" src="layer/layer.js"></script>
 	<script>
         $('#myTab a').click(function (e) {
           e.preventDefault()
           $(this).tab('show')
-        });        
+        }); 
+        
+        //向实名邮箱发送验证码
+        function sendMail(){
+        	var email=$("#exampleInputEmail1").val();
+        	var flag=/^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z]{2,5}$/.test(email);
+        	if(flag==false){
+				layer.msg('请输入正确的邮箱', {
+		    	    time: -1, //永久不关闭
+		    	    icon:0,
+		    	   /*  shift:6, */
+		    	    btn: [ '知道了']
+	    	 	});
+				return;
+        	}
+        	$.post(
+        		"member_sendEmail",
+        		{"email":email},
+        		function(data){
+        			if(data.code==500){
+        				layer.msg('data.message', {
+	  			    	    time: -1, //永久不关闭
+	  			    	    icon:5,
+	  			    	   /*  shift:6, */
+	  			    	    btn: [ '知道了']
+	  			    	 });
+        				return;
+        			}
+        			window.location.href="member_apply-4"
+        		}
+        	);
+        }
 	</script>
   </body>
 </html>

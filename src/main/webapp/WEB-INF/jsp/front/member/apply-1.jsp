@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
   <head>
@@ -35,31 +36,37 @@
 		  <li role="presentation"><a href="#"><span class="badge">4</span> 申请确认</a></li>
 		</ul>
         
-		<form role="form" style="margin-top:20px;" id="formInfo">
+		<form:form  style="margin-top:20px;" id="formInfo" action="pushMemberInfo">
 		  <div class="form-group">
 			<label for="exampleInputEmail1">真实名称</label>
 			<input type="text" class="form-control" id="exampleInputEmail1" placeholder="请输入真实名称" name="realname"/>
 		  </div>
 		  <div class="form-group">
 			<label for="exampleInputPassword1">身份证号码</label>
-			<input type="text" class="form-control" id="exampleInputPassword1" placeholder="请输入身份证号码" name="cardnum">
+			<input onkeyup="checkInfo(cardnum,this)" type="text" class="form-control" id="exampleInputPassword1" placeholder="请输入身份证号码" name="cardnum">
+			<span id="cardnumInfo" style="width: 50px;height: 40px;"></span>
 		  </div>
 		  <div class="form-group">
-			<label for="exampleInputPassword1">联系号码</label>
-			<input type="text" class="form-control" id="exampleInputPassword1" placeholder="该电话不会在项目界面展示" name="tel">
+			<label for="exampleInputPassword2">联系号码</label>
+			<input type="text" class="form-control" id="exampleInputPassword2" placeholder="该电话不会在项目界面展示" name="tel">
 		  </div>
 		  <div class="form-group">
-			<label for="exampleInputPassword1">客服电话</label>
-			<input type="text" class="form-control" id="exampleInputPassword1" placeholder="该电话会在项目界面展示" name="customtel">
+			<label for="exampleInputPassword3">客服电话</label>
+			<input type="text" class="form-control" id="exampleInputPassword3" placeholder="该电话会在项目界面展示" name="cutomtel">
 		  </div>
 		   <div class="form-group">
-			<label for="exampleInputPassword1" ">公司简介</label><br>
-			<textarea rows="5" cols="70" name="introdce" placeholder="让我们更好了解你 不超过200个字"></textarea>
+			<label for="exampleInputPassword4" ">公司简介</label><br>
+			<textarea  rows="5" cols="50" name="introduce" placeholder="公司简介不超过50个字" id="exampleInputPassword4"></textarea>
+		  </div>
+		  
+		  <div class="form-group">
+			<label for="exampleInputPassword5" ">公司详情</label><br>
+			<textarea rows="5" cols="100" name="describe" placeholder="让我们更好了解你 不超过200个字" id="exampleInputPassword5"></textarea>
 		  </div>
 		  
           <button type="button" onclick="window.location.href='member_accttype'" class="btn btn-default">上一步</button>
 		  <button type="button" onclick="nextApply()"  class="btn btn-success">下一步</button>
-		</form>
+		</form:form>
 		<hr>
     </div> <!-- /container -->
         <div class="container" style="margin-top:20px;">
@@ -94,9 +101,35 @@
         	return type;
         }
         
+        function checkInfo(name,obj,msg){
+        	console.log(obj.value);
+        	var cardnum=obj.value;
+        	if(!/^[0-9A-Z]{18}$/.test(cardnum)){
+        		$("#cardnumInfo").html("身份证格式不对");
+        		$("#cardnumInfo").css("color",'red');
+        		
+        	}else{
+        		$("#cardnumInfo").html("");
+        	}
+        }
+        
+        
         function nextApply(){
-        	var data = $("#formInfo").serialize();   
-        	console.log(data);
+        	var realname=$('input[name=realname]').val();
+        	var tel=$('input[name=tel]').val();
+        	var cutomtel=$('input[name=cutomtel]').val();
+        	var describe=$('#exampleInputPassword5').val();
+        	var introduce=$('#exampleInputPassword4').val();
+        	var cardnum=$('input[name=cardnum]').val();
+        	console.log(introduce);
+        	var accttype=getType();
+        	$.post(
+        		"pushMemberInfo",
+        		{"realname":realname,"tel":tel, "cutomtel":cutomtel,"describe":describe,"introduce":introduce,"cardnum":cardnum,"accttype":accttype},
+        		function(data){
+        			//window.location.href="member_apply-2";
+        		}
+        	);
         }
 	</script>
   </body>
