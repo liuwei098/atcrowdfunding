@@ -8,6 +8,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+ 
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,6 +21,8 @@ import com.yc.atcrowdfunding.biz.UserBiz;
 import com.yc.atcrowdfunding.vo.Result;
 
 
+
+
 @Controller
 public class UserController {
 	
@@ -27,36 +31,52 @@ public class UserController {
 	
 	@Resource
 	private PermissionBiz pbiz;
-	
-
-	@ModelAttribute("menus")
-	public  List<TPermission> init(HttpSession session){
-		return  pbiz.findAllMenu();
-		 
-	}
-	
+	/*
+	 * @ModelAttribute("menus") public List<TPermission> init(HttpSession session){
+	 * return pbiz.findAllMenu();
+	 * 
+	 * }
+	 */
 	 
 	
 	
 	@RequestMapping("main")
 	public String user(TUser user,HttpSession session){
-		//List<TPermission> list=pbiz.findAllMenu();
-		//session.setAttribute("menus", list);
+		List<TPermission> list=pbiz.findAllMenu();
+		session.setAttribute("menus", list);
 		return "user/main";
 	}
 	
 	//显示所有用户，和模糊查询的用户
 	@RequestMapping("user")
-
 	public String Tuser(@RequestParam(defaultValue = "1")int pageNum,HttpSession session,
 			@RequestParam(defaultValue = "5")int pageSize,String name,Model model) {
 		
 		Result result = ubiz.findAllUser(pageNum, pageSize, name);
 		model.addAttribute("result", result);
-
+		 
 		return "user/user";
 	}
 	
+	
+	//根据id删除用户
+	@RequestMapping("deleteUser")
+	@ResponseBody
+	public Result deleteUser(String  ids) {
+		// System.out.println("id 是   "+ids);
+		Result result = new Result();
+		try {
+			//ubiz.deleteUserById(ids);
+			result.setCode(200);
+			result.setMessage("删除成功");
+		} catch (RuntimeException e) {
+			result.setCode(-1);
+			result.setMessage("业务繁忙，删除失败，请稍后再试！！");
+		}
+		
+		return result;
+		
+	}
 	
 	
 	//编辑用户页面
@@ -88,7 +108,7 @@ public class UserController {
 		return "user/addUser";
 	}
 	
-	
+	//处理新增用户
 	@RequestMapping("addUserX")
 	@ResponseBody
 	public Result addUserX(String loginacct,String username,String password,String email) {
@@ -112,5 +132,13 @@ public class UserController {
 		return result;
 	}
 	
-
+	
+	//  为用户 设置权限 assignRole
+	@RequestMapping("assignRole")
+	public String assignRole() {
+		return "user/assignRole";
+	}
+ 	
+	
 }
+ 

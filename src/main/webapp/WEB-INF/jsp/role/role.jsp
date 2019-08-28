@@ -27,11 +27,17 @@
 
   <body>
 
+<<<<<<< HEAD
+    <%pageContext.setAttribute("info","角色维护"); %>
+    
     
 	  <%@ include file="../commons/header.jsp" %>
+	  
     <div class="container-fluid">
       <div class="row">
+      
          <%@ include file="../commons/commons.jsp" %>
+         
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 			<div class="panel panel-default">
 			  <div class="panel-heading">
@@ -109,14 +115,7 @@
             }); 
             
             var ids="";
-
-       		
-            //每点击一次checkBox触发这个方法，
-            function addDeleteRole(id){
-            	//ids=ids+id+",";
-            }
-      		
-
+       	 
             function DeleteSelectedRole(){
             	var a=$(".checkRole");
             	for(var i=0;i<a.length;i++){
@@ -203,6 +202,17 @@
 	        callback: function(num) {
 	        	window.location.href="role?pageNum="+num;	        }
 	    })
+	    
+	    
+	    //点击链接  链接变为红色
+	     $("a[href='role']").css("color","red");
+	    //用户维护 样式设置
+      
+       $("a[href='role']").parents("list-group-item").removeClass("tree-closed");
+       $("a[href='role']").parent().parent("ul").show();
+	    
+	    
 	</script>
   </body>
 </html>
+ 

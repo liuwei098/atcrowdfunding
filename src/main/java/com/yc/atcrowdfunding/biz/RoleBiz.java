@@ -67,7 +67,17 @@ public class RoleBiz {
 		 
 	}
 	
+	//添加角色
+	public void insertRoleX(String name) {
+		TRole tr = new TRole();
+		tr.setName(name);
+		trm.insertSelective(tr);
+	}
 	
-	
-	
+	//查找角色
+	public List<TRole> findRoleX(String name) {
+		TRoleExample example = new TRoleExample();
+		example.createCriteria().andNameEqualTo(name);
+		return trm.selectByExample(example);
+	}
 }

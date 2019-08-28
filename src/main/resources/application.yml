@@ -60,11 +60,3 @@ server:
    port: 80 
    tomcat:
       url-encoding: UTF-8  
-      
-      
-      
-      
-      
-      
-      
-      

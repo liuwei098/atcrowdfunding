@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+ 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>       
 
 <!DOCTYPE html>
@@ -32,6 +32,8 @@
 
   <body>
 
+	<%pageContext.setAttribute("info","用户维护"); %>
+
     <%@ include file="../commons/header.jsp" %>
 
     <div class="container-fluid">
@@ -40,24 +42,21 @@
  
           <%@ include file="../commons/commons.jsp" %>
         
-
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 			<div class="panel panel-default">
 			  <div class="panel-heading">
 				<h3 class="panel-title"><i class="glyphicon glyphicon-th"></i> 数据列表</h3>
 			  </div>
 			  <div class="panel-body">
-			  
 <form class="form-inline" role="form" style="float:left;">
   <div class="form-group has-feedback">
     <div class="input-group">
       <div class="input-group-addon">查询条件</div>
-      <input class="form-control has-success" type="text" placeholder="请输入查询条件" id="uname">
+      <input class="form-control has-success" type="text" placeholder="请输入查询条件(用户名称)" id="uname">
     </div>
   </div>
   <button type="button" class="btn btn-warning" onclick="searchUser()"><i class="glyphicon glyphicon-search"></i> 查询</button>
 </form>
-
 <button type="button" class="btn btn-danger" style="float:right;margin-left:10px;" onclick="deleteAll()"><i class=" glyphicon glyphicon-remove"></i> 删除</button>
 <button type="button" class="btn btn-primary" style="float:right;" onclick="window.location.href='addUser'"><i class="glyphicon glyphicon-plus"></i> 新增</button>
 <br>
@@ -69,7 +68,7 @@
                   <th width="30">#</th>
 				  <th width="30"><input type="checkbox" disabled="true"></th>
                   <th>账号</th>
-                  <th>名称</th>
+                  <th>用户名称</th>
                   <th>邮箱地址</th>
                   <th width="100">操作</th>
                 </tr>
@@ -85,7 +84,6 @@
                   <td>${u.email }</td>
                   <td>
 				      <button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>
-
 				      <button type="button" class="btn btn-primary btn-xs"  onclick="editUser(${u.id },'${u.loginacct }','${u.username }','${u.email }' )" ><i class=" glyphicon glyphicon-pencil"></i></button>
 					  <button type="button" class="btn btn-danger btn-xs"  onclick="deleteUser(${u.id } )"><i class=" glyphicon glyphicon-remove"></i></button>
 				  </td>
@@ -106,7 +104,6 @@
     </div>
 	
     <script src="jquery/jquery-2.1.1.min.js"></script>
-
     <script type="text/javascript" src="easyui/js/jquery.easyui.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
 	<script src="script/docs.min.js"></script>
@@ -147,10 +144,9 @@
             
             $("tbody .btn-success").click(function(){
             	
-                window.location.href = "assignRole.html";
+                window.location.href = "assignRole";
             });
             
-
             //编辑用户
             function editUser(id,loginacct,username,email){
             	/* alert(loginacct); */
@@ -179,7 +175,7 @@
             	$.post( url,param,callback);
 
             }
-  
+            
             //根据多个id删除用户
           var ids = "";
           function deleteAll(){
@@ -206,6 +202,14 @@
         	 $.post(url,param,callback);
           }
            
+          //用户维护 样式设置
+          $("a[href='user']").css("color","red");
+          $("a[href='user']").parents("list-group-item").removeClass("tree-closed");
+          $("a[href='user']").parent().parent("ul").show();
+          
+          
+          
         </script>
   </body>
 </html>
+  

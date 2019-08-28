@@ -39,8 +39,9 @@
 			<label for="exampleInputEmail1">验证码</label>
 			<input type="text" class="form-control" id="exampleInputEmail1" placeholder="请输入你邮箱中接收到的验证码">
 		  </div>
+
           <button type="button" onclick="sendAgain()" class="btn btn-primary" id="send">重新发送验证码</button>
-		  <button type="button" onclick="checkEmailCode()"  class="btn btn-success">申请完成</button>
+		  <button type="button" onclick="window.location.href='member_accttype'"  class="btn btn-success">申请完成</button>
 		</form>
 		<hr>
     </div> <!-- /container -->
@@ -59,6 +60,14 @@
                 </div>
             </div>
         </div>
+    <script src="jquery/jquery-2.1.1.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+	<script src="script/docs.min.js"></script>
+	<script>
+        $('#myTab a').click(function (e) {
+          e.preventDefault()
+          $(this).tab('show')
+        });        
     <script src="jquery/jquery-2.1.1.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
 	<script src="script/docs.min.js"></script>
@@ -95,7 +104,6 @@
         		}
         	);
         }
-        
         //再次发送验证码
         var countdown=0; 
        	var _generate_code = $("#send");

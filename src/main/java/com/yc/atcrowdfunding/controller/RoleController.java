@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yc.atcrowdfunding.bean.TPermission;
+import com.yc.atcrowdfunding.bean.TRole;
 import com.yc.atcrowdfunding.biz.PermissionBiz;
 import com.yc.atcrowdfunding.biz.RoleBiz;
 import com.yc.atcrowdfunding.vo.Result;
@@ -24,15 +25,7 @@ public class RoleController {
 	
 	@Resource
 	private PermissionBiz pbiz;
-	
-	
-	@ModelAttribute("menus")
-	public  List<TPermission> init(HttpSession session){
-		return  pbiz.findAllMenu();
-		 
-	}
-	
-	
+	 
 	@RequestMapping("role")
 	public String role(@RequestParam(defaultValue="1") int pageNum,@RequestParam(defaultValue="5") int pageSize,
 			String name,Model model){
@@ -88,6 +81,28 @@ public class RoleController {
 		return result;
 	}
 	
-	
+	//添加角色
+	@RequestMapping("addRoleX")
+	@ResponseBody
+	public Result addRoleX(String roleName) {
+		Result result = new Result();
+		try {
+			List<TRole> list = rbiz.findRoleX(roleName);
+			if(list.size()>0) {
+				result.setCode(0);
+				result.setMessage("该角色已存在");
+				 
+			}else {
+				rbiz.insertRoleX(roleName);
+				result.setCode(200);
+				result.setMessage("角色创建成功");
+				 
+			}
+		} catch (RuntimeException e) {
+			 result.setCode(-1);
+			 result.setMessage("服务器繁忙，请稍后再试");
+		}
+		return  result;
+	}
 	
 }
