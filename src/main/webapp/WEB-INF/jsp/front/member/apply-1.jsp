@@ -43,16 +43,18 @@
 		  </div>
 		  <div class="form-group">
 			<label for="exampleInputPassword1">身份证号码</label>
-			<input onkeyup="checkInfo(cardnum,this)" type="text" class="form-control" id="exampleInputPassword1" placeholder="请输入身份证号码" name="cardnum">
+			<input onkeyup="checkInfo(this)" type="text" class="form-control" id="exampleInputPassword1" placeholder="请输入身份证号码" name="cardnum">
 			<span id="cardnumInfo" style="width: 50px;height: 40px;"></span>
 		  </div>
 		  <div class="form-group">
 			<label for="exampleInputPassword2">联系号码</label>
-			<input type="text" class="form-control" id="exampleInputPassword2" placeholder="该电话不会在项目界面展示" name="tel">
+			<input onkeyup="checkInfo(this)" type="text" class="form-control" id="exampleInputPassword2" placeholder="该电话不会在项目界面展示,填写手机号码" name="tel">
+			<span id="telInfo" style="width: 50px;height: 40px;"></span>
 		  </div>
 		  <div class="form-group">
 			<label for="exampleInputPassword3">客服电话</label>
-			<input type="text" class="form-control" id="exampleInputPassword3" placeholder="该电话会在项目界面展示" name="cutomtel">
+			<input onkeyup="checkInfo(this)" type="text" class="form-control" id="exampleInputPassword3" placeholder="该电话会在项目界面展示,建议填座机" name="cutomtel">
+			 <span id="cutominfo" style="width: 50px;height: 40px;"></span>
 		  </div>
 		   <div class="form-group">
 			<label for="exampleInputPassword4" ">公司简介</label><br>
@@ -87,12 +89,44 @@
     <script src="jquery/jquery-2.1.1.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
 	<script src="script/docs.min.js"></script>
+	<script type="text/javascript" src="layer/layer.js"></script>
 	<script>
         $('#myTab a').click(function (e) {
           e.preventDefault()
           $(this).tab('show')
         });   
         
+        //检验电话和身份证号是否重复
+        function filterRepeat(name,value){
+        	console.log(111);
+        	$.post(
+        		"member_check_repeat",
+        		{"name":name,"value":value},
+        		function(data){
+        			console.log(222);
+       				if(name=="cardnum"){
+       					if(data.code==1){
+       						$("#cardnumInfo").html(data.message);
+       						$("#cardnumInfo").css("color",'red');
+       					}else{
+       						$("#cardnumInfo").html("");
+       					}
+       				}
+       				
+       				if(name=="tel"){
+       					if(data.code==1){
+           					$("#telInfo").html(data.message);
+           					$("#telInfo").css("color",'red');
+           				}else{
+           					$("#telInfo").html("");
+           				}
+       				}
+        			
+        		}
+        	);
+        	
+        	
+        }
       
         //获取实名验证类型
         function getType(){
@@ -101,19 +135,39 @@
         	return type;
         }
         
-        function checkInfo(name,obj,msg){
-        	console.log(obj.value);
-        	var cardnum=obj.value;
-        	if(!/^[0-9A-Z]{18}$/.test(cardnum)){
-        		$("#cardnumInfo").html("身份证格式不对");
-        		$("#cardnumInfo").css("color",'red');
-        		
-        	}else{
-        		$("#cardnumInfo").html("");
-        	}
+        //检验信息格式
+        function checkInfo(obj){
+        	var value=obj.value;
+        	var name=obj.name;
+   			if(name=="cardnum"){
+	        	if(!/^[0-9A-Z]{18}$/.test(value)){
+	        		$("#cardnumInfo").html("身份证格式不对");
+	        		$("#cardnumInfo").css("color",'red');
+	        		
+	        	}else{
+	        		filterRepeat(name,value);
+	        		
+	        	}
+   			}else if(name=="cutomtel"){
+   				if(!/^1[3456789]\d{9}$/.test(value) && ! /^(?:0[1-9][0-9]{1,2}-)?[2-8][0-9]{6,7}$/.test(value)){
+	        		$("#cutominfo").html("客服电话格式不对");
+	        		$("#cutominfo").css("color",'red');
+	        	}else{
+	        		$("#cutominfo").html("");
+	        	}
+   			}else if(name=="tel"){
+   				if(!/^1[3456789]\d{9}$/.test(value)){
+	        		$("#telInfo").html("电话格式不对");
+	        		$("#telInfo").css("color",'red');
+	        		
+	        	}else{
+	        		filterRepeat(name,value);
+	        		$("#telInfo").html("");
+	        	}
+   			}
         }
         
-        
+        //检验信息并跳转验证下一步
         function nextApply(){
         	var realname=$('input[name=realname]').val();
         	var tel=$('input[name=tel]').val();
@@ -121,13 +175,26 @@
         	var describe=$('#exampleInputPassword5').val();
         	var introduce=$('#exampleInputPassword4').val();
         	var cardnum=$('input[name=cardnum]').val();
+        	var cardnumInfo=$('#cardnumInfo').html();
+        	var telInfo=$('#telInfo').html();
+        	var cutomInfo=$('#cutominfo').html();
         	console.log(introduce);
+        	if(realname=="" || telInfo!="" || cutomInfo!="" || describe=="" || describe.length>200 
+        			|| introduce=="" || introduce.length>50 || cardnumInfo!=""){
+        			layer.msg("信息有误，请核对信息", {
+			    	    time: -1, //20s后自动关闭
+			    	    icon:5,
+			    	   /*  shift:6, */
+			    	    btn: ['知道了','明白了']
+			    	 });
+        			return;
+        	}
         	var accttype=getType();
         	$.post(
         		"pushMemberInfo",
         		{"realname":realname,"tel":tel, "cutomtel":cutomtel,"describe":describe,"introduce":introduce,"cardnum":cardnum,"accttype":accttype},
         		function(data){
-        			//window.location.href="member_apply-2";
+        			window.location.href="member_apply-2";
         		}
         	);
         }

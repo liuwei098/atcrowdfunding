@@ -51,6 +51,7 @@
                    <th>联系电话</th>
                    <th>客服电话</th>
                    <th>电子邮箱</th>
+                   <th>申请类型</th>
                    <th>资质图片</th>
                
                 </tr>
@@ -65,7 +66,19 @@
               	  <td>${member.tel }</td>
               	  <td>${member.cutomtel }</td>
               	  <td>${member.email }</td>
-              	    <td><a onclick="largerImg()" style="cursor: pointer;"><img src="${member.iconpath }" style="width:150px;height:100px"></a></td>
+              	  <c:if test="${member.accttype==0 }">
+              	  	  <td>企业</td>
+              	  </c:if>
+              	  <c:if test="${member.accttype==1 }">
+              	  	  <td>个体</td>
+              	  </c:if>
+              	  <c:if test="${member.accttype==2 }">
+              	  	  <td>个人</td>
+              	  </c:if>
+              	  <c:if test="${member.accttype==3 }">
+              	  	  <td>政府</td>
+              	  </c:if>
+              	  <td><a onclick="largerImg()" style="cursor: pointer;"><img src="${member.iconpath }" style="width:150px;height:100px"></a></td>
                 
                 </tr>
               </tbody>
@@ -83,7 +96,7 @@
 							<form id="editForm" method="post" class="form-horizontal">
 								<textarea rows="10" cols="30"
 									style="width: 500px; height: 200px;; opacity: 0.4;"
-									placeholder="请填写审核不通过原因"></textarea>
+									placeholder="请填写审核不通过原因" id="reason"></textarea>
 								<br>
 								<input type="button" value="提交" onclick="reject1()">
 								<input type="button" value="取消" onclick="cancel('editModal')">
@@ -155,7 +168,28 @@
 	<script type="text/javascript" src="layer/layer.js"></script>
 	 <script>
     	//审核通过
+    	
+    	
+    	//审核失败出现填写原因模态窗口
+    	function fail(obj,id){
+    		$("#editModal").modal("show");
+    		
+    	}
+    	
+    	//查看资质照片大图
+    	function largerImg(){
+    		$("#largerImage").modal("show");
+    	}
+    	
+    	//关闭模态窗口
+    	function cancel(id){
+    		$("#"+id).modal("hide");
+    	}
+    	
     	function pass(obj,id){
+    		if(!confirm("确认审核通过吗？")){
+    			return;
+    		}
     		var email=obj.value;
     	 	$.post(
     			"member_review_success",
@@ -180,28 +214,33 @@
     		); 
     	}
     	
-    	//审核失败出现填写原因模态窗口
-    	function fail(obj,id){
-    		$("#editModal").modal("show");
-    		
-    	}
-    	
-    	//查看资质照片大图
-    	function largerImg(){
-    		$("#largerImage").modal("show");
-    	}
-    	
-    	//关闭模态窗口
-    	function cancel(id){
-    		$("#"+id).modal("hide");
-    	}
-    	
     	//点击提交拒绝信息按钮
     	function reject1(){
     		var email=$("#btn_fail").val();
     		var id=document.getElementById("btn_fail").getAttribute("mid");
-    		
-    		$("#editModal").modal("hide");
+    		var reason=$("#reason").val();
+    		 $.post(
+    			"member_review_fail",
+    			{"id":id,"email":email,"reason":reason},
+    			function(data){
+    				if(data.code==1){
+   					 layer.msg(data.message, {
+     			    	    time: -1, //20s后自动关闭
+     			    	    icon:1,
+     			    	   /*  shift:6, */
+     			    	    btn: ['<a href="auth_cert">'+'确定</a>']
+     			    	 });
+	   				}else{
+	   					 layer.msg(data.message, {
+		  			    	    time: -1, //20s后自动关闭
+		  			    	    icon:5,
+		  			    	   /*  shift:6, */
+		  			    	    btn: ['明白了', '知道了']
+		  			    	 });
+	   				}
+    			}
+    		)
+    		$("#editModal").modal("hide"); 
     	}
     	
 	    $(function () {

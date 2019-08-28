@@ -39,7 +39,7 @@
 			<label for="exampleInputEmail1">验证码</label>
 			<input type="text" class="form-control" id="exampleInputEmail1" placeholder="请输入你邮箱中接收到的验证码">
 		  </div>
-          <button type="button" onclick="javascript:;" class="btn btn-primary">重新发送验证码</button>
+          <button type="button" onclick="sendAgain()" class="btn btn-primary" id="send">重新发送验证码</button>
 		  <button type="button" onclick="checkEmailCode()"  class="btn btn-success">申请完成</button>
 		</form>
 		<hr>
@@ -69,6 +69,7 @@
           $(this).tab('show')
         });   
         
+       
         function checkEmailCode(){
         	var code=$("#exampleInputEmail1").val();
         	$.post(
@@ -94,6 +95,45 @@
         		}
         	);
         }
+        
+        //再次发送验证码
+        var countdown=0; 
+       	var _generate_code = $("#send");
+    	sendAgain();
+        function sendAgain(){
+       	  	var disabled = $("#send").attr("disabled");  
+            if(disabled){ 
+           		return false;
+           	}
+            $.ajaxSettings.async = false;
+            $.post(
+	    		"member_sendEmail",
+	    		{"email":""},
+	    		function(data){
+	    			if(data.code>0 && data.code<60){
+	    				countdown=data.code;
+	    			}
+	    		}
+    		); 
+    		 $.ajaxSettings.async = false;
+    		settime();
+        	
+        }
+        function settime() {  
+            if (countdown == 0) {  
+              _generate_code.attr("disabled",false);  
+              _generate_code.html("重新发送验证码");  
+              countdown = 60;  
+              return false;  
+            } else {  
+              $("#send").attr("disabled", true);  
+              $("#send").html("重新发送(" + countdown + ")");  
+              countdown--;  
+            }  
+            setTimeout(function() {  
+              settime();  
+            },1000);  
+          }  
 	</script>
   </body>
 </html>

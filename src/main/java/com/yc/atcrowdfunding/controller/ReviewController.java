@@ -54,6 +54,16 @@ public class ReviewController {
 		return "review/member_review";
 	}
 	
+	@RequestMapping("search_member")
+	public String reviewMember(String keyword,Model model,
+			@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="5") int pageSize){
+		Result result=mbiz.findByKeyWord(keyword,page,pageSize);
+		model.addAttribute("result", result);
+		return "review/auth_cert";
+	}
+	
+	
+	
 	//实名验证成功向会员发送邮件提示
 	@RequestMapping("member_review_success")
 	@ResponseBody
@@ -71,4 +81,22 @@ public class ReviewController {
 		}
 		return result;
 	}
+	
+	//实名验证失败，获取失败原因向会员发送邮件提示
+		@RequestMapping("member_review_fail")
+		@ResponseBody
+		public Result Fail(int id,String email,String reason){
+		
+			Result result=new Result();
+			try{
+				mbiz.reviewFail(id, email,reason);
+				result.setCode(1);
+				result.setMessage("操作成功！");
+			}catch(RuntimeException e){
+				e.printStackTrace();
+				result.setCode(0);
+				result.setMessage("服务器繁忙,稍后再试！！");
+			}
+			return result;
+		}
 }

@@ -50,4 +50,31 @@ public class MemberBiz {
 		tmm.updateByPrimaryKeySelective(member);
 		
 	}
+	
+	//验证失败
+	public void reviewFail(int id, String email, String reason) {
+		TMember member=tmm.selectByPrimaryKey(id);
+		String content="【众筹网】,尊敬的会员:"+member.getLoginacct()+",您的实名验证未经过审核，失败原因如下\n"+reason;
+		mailService.SendReviewMail(content, email, "众筹网实名认证审核失败通知");
+		member.setAuthstatus("0");
+		tmm.updateByPrimaryKeySelective(member);
+		
+	}
+
+	public Result findByKeyWord(String keyword,int pageNum,int pageSize) {
+		TMemberExample example=new TMemberExample();
+		example.createCriteria().andLoginacctLike("%"+keyword+"%");
+		example.or().andCardnumLike("%"+keyword+"%");
+		example.or().andRealnameLike("%"+keyword+"%");
+		example.or().andLoginacctLike("%"+keyword+"%");
+		Page<TMember> page=PageHelper.startPage(pageNum, pageSize);
+		List<TMember> list= tmm.selectByExample(example);
+		Result result=new Result();
+		result.setObj(list);
+		int total=(int) page.getTotal();
+		result.setTotal(total);
+		result.setPage(pageNum);
+		result.setTotalPage( total%pageSize==0 ? total/pageSize:((total/pageSize)+1));
+		return result;
+	}
 }
