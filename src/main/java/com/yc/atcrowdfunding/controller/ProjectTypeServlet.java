@@ -107,8 +107,6 @@ public class ProjectTypeServlet {
 	@PostMapping("updateTType")
 	@ResponseBody
 	public Result updateType(TType ttype,Model model){
-		System.out.println(1111);
-		System.out.println(ttype.getName()+ttype.getRemark()+ttype.getId());
 		Result result=new Result();
 		try{
 			ptb.updateType(ttype);
@@ -117,10 +115,5 @@ public class ProjectTypeServlet {
 			e.printStackTrace();
 		}
 		return result;
-	}
-	
-	@RequestMapping("test")
-	public String toTest(){
-		return "bizmanager/test";
 	}
 }

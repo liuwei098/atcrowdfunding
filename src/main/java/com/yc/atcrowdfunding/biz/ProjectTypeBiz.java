@@ -75,12 +75,10 @@ public class ProjectTypeBiz {
 	 */
 	public int addTType(TType ttype) {
 		String tname=ttype.getName();
-		System.out.println(tname);
 		if(tname!=null){
 			TTypeExample example=new TTypeExample();
 			example.createCriteria().andNameEqualTo(tname);
 			List<TType> list=tm.selectByExample(example);
-			System.out.println(list);
 			if(list.size()==0){
 				int i=tm.insert(ttype);
 				return i;
