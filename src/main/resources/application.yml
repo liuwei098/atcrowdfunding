@@ -6,9 +6,9 @@ spring:
          suffix: .jsp
       
    datasource:
-      url: jdbc:mysql://127.0.0.1:3306/atcrowdfunding
+      url: jdbc:mysql://127.0.0.1:3306/atcrowdfunding?characterEncoding=utf-8
       username: root
-      password: mysql
+      password: a
       driver-class-name: com.mysql.jdbc.Driver
 
    http:
@@ -16,23 +16,21 @@ spring:
          force: true
          charset: UTF-8
          enabled: true
-   
+         
    resources:
-   # web 文件映射 （数组）
-      staticLocations:
-         - file:/d:/blog/
-         - classpath:/static/
-         - classpath:/resources/
+     staticLocations:
+       - classpath:/static/
+       - file:/D:/blog/
 
 
    # 邮件服务配置
    mail: 
       # 邮箱服务器地址
-      host: smtp.163.com
+      host: smtp.qq.com
       # 用户名
-      username: q1095701116@163.com
+      username: 2271020426@qq.com
       # 发送密码
-      password: xh3526
+      password: xjmmznpfrsnvebjh
       # 默认字符集编码
       default-encoding: UTF-8
       
@@ -44,7 +42,7 @@ spring:
 # 发送地址
 mail:
    fromMail:
-      addr: q1095701116@163.com
+      addr: 2271020426@qq.com
       
       
 
@@ -61,6 +59,7 @@ logging:
 server:
    port: 80 
    tomcat:
+<<<<<<< HEAD
       url-encoding: UTF-8  
       
       
@@ -70,3 +69,6 @@ server:
       
       
       
+=======
+      url-encoding: UTF-8  
+>>>>>>> branch 'master' of https://github.com/liuwei098/atcrowdfunding.git

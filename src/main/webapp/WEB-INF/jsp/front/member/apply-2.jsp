@@ -110,15 +110,15 @@
 		  <li role="presentation"><a href="#"><span class="badge">4</span> 申请确认</a></li>
 		</ul>
         
-		<form:form  style="margin-top:20px;" action="pushIconpath" enctype="multipart/form-data">
+		<form:form  style="margin-top:20px;" action="pushIconpath" enctype="multipart/form-data" id="test_form">
 		  <div class="form-group">
 			<label for="exampleInputEmail1">手执相关证件照片</label>
 			<input type="file" class="form-control" id="file" name="iconpath">
             <br>
-            <img src="img/pic.jpg" id="image">
+            <img src="img/pic.jpg" id="image" style="width: 400px;height: 350px">
 		  </div>
           <button type="button" onclick="window.location.href='member_apply-1'" class="btn btn-default">上一步</button>
-		  <input type="submit"   class="btn btn-success" value="下一步">
+		  <input type="button" onclick="submitForm()"  class="btn btn-success" value="下一步">
 		</form:form>
 		<hr>
     </div> <!-- /container -->
@@ -140,13 +140,48 @@
     <script src="jquery/jquery-2.1.1.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
 	<script src="script/docs.min.js"></script>
+	 <script type="text/javascript" src="layer/layer.js"></script>
 	<script>
         $('#myTab a').click(function (e) {
           e.preventDefault()
           $(this).tab('show')
         });   
         
-       
+        getImage();
+	   	 //上一步时获取刚刚取得的图片
+	   	 function getImage(){
+	   		 $.post(
+		    		"member_getimgae",
+		    		{},
+		    		function(data){
+		    			if(data==null || data==""){
+		    				document.getElementById('image').src = "img/pic.jpg"
+		    			}else{
+		    				document.getElementById('image').src = data+"";
+		    			}
+		    		}
+		    	 );
+	   	 }
+        
+       //判断是否选择图片，选择则上传，否则提示会员
+       function submitForm(){
+    	 var form = document.getElementById('test_form');
+    	 var imgsrc=$("#image").attr("src");
+    	 if(imgsrc!="img/pic.jpg" && imgsrc!=""){
+    		 form.submit();
+    	 }else{
+	   		 layer.msg("请选择资质照片", {
+		    	    time: -1, //20s后自动关闭
+		    	    icon:5,
+		    	   /*  shift:6, */
+		    	    btn: ['知道了','明白了']
+		   	  });
+    	 }
+    	
+    	
+    	
+    	 
+       }
         
         //图片回显js
         document.getElementById('file').onchange = function() {

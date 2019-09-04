@@ -1,5 +1,9 @@
 package com.yc.atcrowdfunding.controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Calendar;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -59,6 +63,14 @@ public class MemberApplyServlet {
 		return "front/member/apply-4";
 	}
 	
+	//检验信息是否重复
+	@RequestMapping("member_check_repeat")
+	@ResponseBody
+	public Result CheckRepeat(String name,String value){
+		Result result=mabiz.checkRepeat(name, value);
+		return result;
+	}
+	
 	
 	//将实名认证的信息存入session
 	@RequestMapping("pushMemberInfo")
@@ -84,7 +96,18 @@ public class MemberApplyServlet {
 	@RequestMapping("pushIconpath")
 	public String pushIconPath(@RequestParam("iconpath") MultipartFile iconpath,HttpSession session){
 		String name=iconpath.getOriginalFilename();
+		//随机生成一段字符串与文件名拼接 防止重名
 		String path=UUID.randomUUID().toString().substring(0,9)+name;
+		File dest=new File("D:/blog/"+path);
+		try {
+			iconpath.transferTo(dest);
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		TMember member=(TMember) session.getAttribute("memberInfo");
 		if(member==null){
 			member=new TMember();
@@ -95,19 +118,76 @@ public class MemberApplyServlet {
 		return "redirect:member_apply-3";
 	}
 	
+	//获取照片，用于上一步时显示资质图片
+	@RequestMapping("member_getimgae")
+	@ResponseBody
+	public String getMemberImage(HttpSession session){
+		TMember member=(TMember) session.getAttribute("memberInfo");
+		if(member==null){
+			member=new TMember();
+		}
+		String path=member.getIconpath();
+		return path;
+	}
+	
 	//向认证邮箱发送验证码
 	@RequestMapping("member_sendEmail")
 	@ResponseBody
 	public Result sendMail(String email,HttpSession session){
+	
 		Result result=new Result();
 		try{
-			String emailCode=mailService.sendEmail(email, "众筹网实名验证验证码");
-			session.setAttribute("emailCode", emailCode);
+			if("".equals(email)){
+				email=(String) session.getAttribute("applyEmail");
+			}else{
+				session.setAttribute("applyEmail", email);
+			}
 		}catch(RuntimeException e){
 			e.printStackTrace();
 			result.setCode(500);
 			result.setMessage("服务器繁忙，稍后再试！！！");
 		}
+		
+		//以下代码是判断离上一次发送验证码距离了多久时间
+		
+		Calendar calendar=Calendar.getInstance();//获取当前时间
+		//如果还没发送过验证码就直接返回0
+		if(session.getAttribute("codeTime")==null){
+			//发送验证码
+			String emailCode=mailService.sendEmail(email, "众筹网实名验证验证码");
+			session.setAttribute("emailCode", emailCode);
+			session.setAttribute("codeTime", calendar);
+			result.setCode(0);
+			return result;
+		}
+		//获取上一次发送验证码的时间
+		Calendar codeTime=(Calendar) session.getAttribute("codeTime");
+		int codeSecond=codeTime.get(Calendar.SECOND);//上一次的秒数
+		int codeMinute=codeTime.get(Calendar.MINUTE);//上一次的分钟数
+		int nowSecond=calendar.get(Calendar.SECOND);//当前秒数
+		int nowMinute=calendar.get(Calendar.MINUTE);//当前分钟数
+		int second=0;
+		
+		/**
+		 * 判断离上一次验证码发送隔了多久时间
+		 * 
+		 */
+		if( (nowMinute-codeMinute==1 || nowMinute-codeMinute==0) && nowSecond<codeSecond){
+			
+			second=nowSecond+60-codeSecond;
+			
+		}
+		else if( (nowMinute==codeMinute) && nowSecond>codeSecond && nowSecond-codeSecond!=60 ){
+			
+			second=nowSecond-codeSecond;
+			
+		}else{
+			session.removeAttribute("codeTime");
+			//发送验证码
+			String emailCode=mailService.sendEmail(email, "众筹网实名验证验证码");
+			session.setAttribute("emailCode", emailCode);
+		}
+		result.setCode(60-second);
 		return result;
 	}
 	

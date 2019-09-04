@@ -41,10 +41,10 @@
   <div class="form-group has-feedback">
     <div class="input-group">
       <div class="input-group-addon">查询条件</div>
-      <input class="form-control has-success" type="text" placeholder="请输入查询条件">
+      <input class="form-control has-success" type="text" placeholder="请输入查询条件" id="keyword">
     </div>
   </div>
-  <button type="button" class="btn btn-warning"><i class="glyphicon glyphicon-search"></i> 查询</button>
+  <button type="button" class="btn btn-warning" onclick="search()"><i class="glyphicon glyphicon-search"></i> 查询</button>
 </form>
 <br>
  <hr style="clear:both;">
@@ -89,6 +89,9 @@
 	<script src="jquery/paging.js"></script>
 	<script type="text/javascript" src="layer/layer.js"></script>
 	 <script>
+	 
+	 	
+	 
     	//分页
 	    $("#page").paging({
 	    	pageNo:${result.page},
@@ -102,6 +105,13 @@
     	//点击进入审核界面
     	function review(id){
     		window.location.href="reviewMember?id="+id;
+    	}
+    	
+    	//查询满足条件的实名认证会员
+    	
+    	function search(){
+    		var keyword=$("#keyword").val();
+    		window.location.href="search_member?keyword="+keyword;
     	}
     	
 	    $(function () {
