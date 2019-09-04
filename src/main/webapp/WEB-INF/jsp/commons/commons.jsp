@@ -16,7 +16,7 @@
 							<ul style="margin-top:10px;display:none;">
 								<c:forEach items="${menu.childs }" var="child">
 									<li style="height:30px;">
-										<a href="${child.url}"><i class="${child.icon }"></i> ${child.name }</a> 
+										<a href="${child.url}" ><i class="${child.icon }"></i> ${child.name }</a> 
 									</li>
 								</c:forEach> 
 							</ul>

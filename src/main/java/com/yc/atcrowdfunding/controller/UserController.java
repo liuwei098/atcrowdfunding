@@ -20,8 +20,7 @@ import com.yc.atcrowdfunding.biz.PermissionBiz;
 import com.yc.atcrowdfunding.biz.UserBiz;
 import com.yc.atcrowdfunding.vo.Result;
 
-
-
+ 
 
 @Controller
 public class UserController {
@@ -31,12 +30,6 @@ public class UserController {
 	
 	@Resource
 	private PermissionBiz pbiz;
-	/*
-	 * @ModelAttribute("menus") public List<TPermission> init(HttpSession session){
-	 * return pbiz.findAllMenu();
-	 * 
-	 * }
-	 */
 	 
 	
 	
@@ -66,7 +59,7 @@ public class UserController {
 		// System.out.println("id 是   "+ids);
 		Result result = new Result();
 		try {
-			//ubiz.deleteUserById(ids);
+			ubiz.deleteUserById(ids);
 			result.setCode(200);
 			result.setMessage("删除成功");
 		} catch (RuntimeException e) {
@@ -133,12 +126,7 @@ public class UserController {
 	}
 	
 	
-	//  为用户 设置权限 assignRole
-	@RequestMapping("assignRole")
-	public String assignRole() {
-		return "user/assignRole";
-	}
- 	
+	
 	
 }
  

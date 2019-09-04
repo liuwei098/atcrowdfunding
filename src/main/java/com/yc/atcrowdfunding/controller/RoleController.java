@@ -26,6 +26,7 @@ public class RoleController {
 	@Resource
 	private PermissionBiz pbiz;
 	 
+	//打开角色页面
 	@RequestMapping("role")
 	public String role(@RequestParam(defaultValue="1") int pageNum,@RequestParam(defaultValue="5") int pageSize,
 			String name,Model model){
@@ -34,13 +35,14 @@ public class RoleController {
 		return "role/role";
 	}
 	
+	//删除角色
 	@RequestMapping("role_deleteRole")
 	@ResponseBody
 	public Result deleteRole(String ids){
 		
 		Result result=new Result();
 		try{
-			//rbiz.deleteById(ids);
+			rbiz.deleteById(ids);
 			result.setCode(200);
 			result.setMessage("删除成功");
 		}catch(RuntimeException e){
@@ -57,6 +59,7 @@ public class RoleController {
 		return "role/addRole";
 	}
 	
+	//打开角色编辑页面
 	@RequestMapping("editRole")
 	public String editrole() {
 		return "role/editRole";
@@ -67,7 +70,7 @@ public class RoleController {
 	@ResponseBody
 	public Result updateRole(String id,String name) {
 
-		System.out.println("id===="+id+"----"+name);
+		//System.out.println("id===="+id+"----"+name);
 		Result result=new Result();
 		try{
 			rbiz.updateRoleById(id, name);
@@ -104,5 +107,10 @@ public class RoleController {
 		}
 		return  result;
 	}
+	
+
+	
+	
+	
 	
 }

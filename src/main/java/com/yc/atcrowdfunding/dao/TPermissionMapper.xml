@@ -15,6 +15,26 @@
     <collection property="childs" fetchType="lazy"
     select="selectByPid" column="id"></collection>
   </resultMap>
+  
+  <resultMap id="BaseResultMap2" type="com.yc.atcrowdfunding.bean.TPermission" >
+     
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="pid" property="pid" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="icon" property="icon" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+     
+  </resultMap> 
+  
+  
+  <select id="getRolePer" resultMap="BaseResultMap2">
+  	select  p.* from t_permission p
+    		left join t_role_permission rp on rp.permissionid = p.id
+			where rp.roleid = #{rid}
+		 
+  </select>
+  
+  
   <select id="selectByPid" resultMap="BaseResultMap">
   		select * from t_permission where pid=#{pid}
   </select>
