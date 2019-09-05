@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+ <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+  
 <!DOCTYPE html>
 <html lang="zh-CN">
   <head>
@@ -37,21 +40,21 @@
         
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 				<ol class="breadcrumb">
-				  <li><a href="#">首页</a></li>
-				  <li><a href="#">数据列表</a></li>
+				  <li><a href="user">首页</a></li>
+				  <li><a href="user">数据列表</a></li>
 				  <li class="active">分配角色</li>
 				</ol>
 			<div class="panel panel-default">
 			  <div class="panel-body">
 				<form role="form" class="form-inline">
 				  <div class="form-group">
+				  
 					<label for="exampleInputPassword1">未分配角色列表</label><br>
-					<select class="form-control" multiple size="10" style="width:100px;overflow-y:auto;">
-                        <option value="pm">PM</option>
-                        <option value="sa">SA</option>
-                        <option value="se">SE</option>
-                        <option value="tl">TL</option>
-                        <option value="gl">GL</option>
+					<select class="form-control unroles" multiple size="10" style="width:100px;overflow-y:auto;">
+                       <c:forEach items="${norole }" var="no">
+                        	<option value="${no.id }">${no.name }</option>
+                        </c:forEach> 
+                        
                     </select>
 				  </div>
 				  <div class="form-group">
@@ -63,10 +66,13 @@
 				  </div>
 				  <div class="form-group" style="margin-left:40px;">
 					<label for="exampleInputPassword1">已分配角色列表</label><br>
-					<select class="form-control" multiple size="10" style="width:100px;overflow-y:auto;">
-                        <option value="qa">QA</option>
-                        <option value="qc">QC</option>
-                        <option value="pg">PG</option>
+					<select class="form-control rolesSelect" multiple size="10" style="width:100px;overflow-y:auto;">
+                       
+                       <c:forEach items="${roles }" var="yrole">
+                       		
+                        	<option value="${yrole.id }">${yrole.name }</option>
+                        </c:forEach>
+                        
                     </select>
 				  </div>
 				</form>
@@ -117,6 +123,61 @@
 					}
 				});
             });
+            
+            //右移 添加角色 设置点击事件
+            $(".glyphicon-chevron-right").click(function(){
+            	//alert("你点击了 右移 添加角色 设置点击事件");
+            	//1.选中的角色 移到右边去
+            	var rids = "";
+            	$(".unroles :selected").each(function(){
+            		rids += $(this).val()+",";
+            	});
+            	$(".unroles :selected").appendTo(".rolesSelect");  
+            	//发送请求 给用户添加选中的角色
+            	var uid = "${param.uid}";
+            	var url = "assignUserRole?opt=add";
+            	var param = {"ids":rids,"uid":uid}
+            	var callback = function(result){
+					if(result.code==200){
+          				alert(result.message); 
+          				 window.location.href="assignRole?uid="+uid; 
+          			}else{
+          				alert(result.message);
+          			}
+            	};
+            	$.post(url,param,callback);
+            });
+            
+            //左移  移除角色 设置点击事件
+            $(".glyphicon-chevron-left").click(function(){
+            	//alert("你点击了 左移  移除角色 设置点击事件");
+            	var uid = "${param.uid}";
+            	//要移除的ids
+            	var rids = "";
+            	$(".rolesSelect :selected").each(function(){
+            		rids += $(this).val()+",";
+            	});
+            	
+            	//移除的效果
+            	 $(".rolesSelect :selected").appendTo(".unroles");
+            	
+            	var param = {"ids":rids,"uid":uid};
+            	var url = "assignUserRole?opt=remove";
+            	//0、发送请求移除
+            	var callback = function(result){
+					if(result.code==200){
+          				alert(result.message); 
+          				 window.location.href="assignRole?uid="+uid; 
+          			}else{
+          				alert(result.message);
+          			}
+            	};
+            	$.post(url,param,callback);
+            	//$.get("/assignUserRole?opt=remove&uid="+uid+"&rids"+rids);
+            });
+            
+           
+            
         </script>
   </body>
 </html>

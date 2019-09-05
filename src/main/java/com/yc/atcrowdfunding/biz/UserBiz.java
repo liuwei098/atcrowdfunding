@@ -86,6 +86,7 @@ public class UserBiz {
 	
 	
 	//添加用户信息
+	@Transactional
 	public void insertUserX(String loginacct,String username,String password,String email) {
 		
 		TUser tu = new TUser();

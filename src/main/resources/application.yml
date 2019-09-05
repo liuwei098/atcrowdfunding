@@ -59,4 +59,16 @@ logging:
 server:
    port: 80 
    tomcat:
+<<<<<<< HEAD
       url-encoding: UTF-8  
+      
+      
+      
+      
+      
+      
+      
+      
+=======
+      url-encoding: UTF-8  
+>>>>>>> branch 'master' of https://github.com/liuwei098/atcrowdfunding.git

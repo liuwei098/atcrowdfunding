@@ -15,7 +15,12 @@
 	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/font-awesome.min.css">
 	<link rel="stylesheet" href="css/main.css">
+	 
+	<link rel="stylesheet" href="css/doc.min.css">
+	<link rel="stylesheet" href="ztree/zTreeStyle.css">
+	
 	<link rel="stylesheet" href="css/pageStyle.css">
+	
 	<style>
 	.tree li {
         list-style-type: none;
@@ -38,11 +43,12 @@
 
     <div class="container-fluid">
       <div class="row">
-      
- 
+       
+       
           <%@ include file="../commons/commons.jsp" %>
-        
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    
+          
 			<div class="panel panel-default">
 			  <div class="panel-heading">
 				<h3 class="panel-title"><i class="glyphicon glyphicon-th"></i> 数据列表</h3>
@@ -60,6 +66,7 @@
 <button type="button" class="btn btn-danger" style="float:right;margin-left:10px;" onclick="deleteAll()"><i class=" glyphicon glyphicon-remove"></i> 删除</button>
 <button type="button" class="btn btn-primary" style="float:right;" onclick="window.location.href='addUser'"><i class="glyphicon glyphicon-plus"></i> 新增</button>
 <br>
+
  <hr style="clear:both;">
           <div class="table-responsive">
             <table class="table  table-bordered">
@@ -83,7 +90,8 @@
                   <td>${u.username }</td>
                   <td>${u.email }</td>
                   <td>
-				      <button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>
+				      <button type="button" class="btn btn-success btn-xs" onclick=" window.location.href = 'assignRole?uid='+${u.id}">
+				      			<i class=" glyphicon glyphicon-check"></i></button>
 				      <button type="button" class="btn btn-primary btn-xs"  onclick="editUser(${u.id },'${u.loginacct }','${u.username }','${u.email }' )" ><i class=" glyphicon glyphicon-pencil"></i></button>
 					  <button type="button" class="btn btn-danger btn-xs"  onclick="deleteUser(${u.id } )"><i class=" glyphicon glyphicon-remove"></i></button>
 				  </td>
@@ -107,8 +115,12 @@
     <script type="text/javascript" src="easyui/js/jquery.easyui.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
 	<script src="script/docs.min.js"></script>
+	<script src="ztree/jquery.ztree.all-3.5.min.js"></script>
 	<script src="jquery/paging.js"></script>
 	<script type="text/javascript" src="layer/layer.js"></script>
+	
+	
+	
 	 <script>
     //分页
 	    $("#page").paging({
@@ -142,10 +154,7 @@
             	
             }
             
-            $("tbody .btn-success").click(function(){
-            	
-                window.location.href = "assignRole";
-            });
+           
             
             //编辑用户
             function editUser(id,loginacct,username,email){
@@ -163,7 +172,6 @@
             	var param={"ids":ids};
             	var callback = function(result){
             		
-            		 
             		if( result.code ==200){
             			alert(result.message);
             			 window.location.href="user?pageNum=${param.pageNum}"; 
@@ -186,10 +194,8 @@
           			ids=ids+a[i].value+",";
           		}
           	} 
-        	   
           		var url = "deleteUser";
           		var param = {"ids":ids};
-          		
           		var callback = function(result){
           			if(result.code==200){
           				
