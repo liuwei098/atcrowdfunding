@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
   <head>
@@ -57,57 +58,10 @@
 	</style>
   </head>
   <body>
- <div class="navbar-wrapper">
-      <div class="container">
-			<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-			  <div class="container">
-				<div class="navbar-header">
-				  <a class="navbar-brand" href="#" style="font-size:32px;">尚筹网-创意产品众筹平台</a>
-				</div>
-            <div id="navbar" class="navbar-collapse collapse" style="float:right;">
-              <ul class="nav navbar-nav">
-                <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i> 张三<span class="caret"></span></a>
-                  <ul class="dropdown-menu" role="menu">
-                    <li><a href="member.html"><i class="glyphicon glyphicon-scale"></i> 会员中心</a></li>
-                    <li><a href="#"><i class="glyphicon glyphicon-comment"></i> 消息</a></li>
-                    <li class="divider"></li>
-                    <li><a href="index.html"><i class="glyphicon glyphicon-off"></i> 退出系统</a></li>
-                  </ul>
-                </li>
-              </ul>
-            </div>
-			  </div>
-			</nav>
-      </div>
-    </div>
-
+ 	<%@ include file="../commons/header.jsp" %>
     <div class="container theme-showcase" role="main">
 
-        <div class="container">
-            <div class="row clearfix">
-                <div class="col-md-12 column">
-                    <nav class="navbar navbar-default" role="navigation">                        
-                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                            <ul class="nav navbar-nav">
-                                <li>
-                                    <a rel="nofollow" href="index.html"><i class="glyphicon glyphicon-home"></i> 众筹首页</a>
-                                </li>
-                                <li >
-                                    <a rel="nofollow" href="projects.html"><i class="glyphicon glyphicon-th-large"></i> 众筹项目</a>
-                                </li>
-                                <li>
-                                    <a rel="nofollow" href="start.html"><i class="glyphicon glyphicon-edit"></i> 发起众筹</a>
-                                </li>
-                                <li>
-                                    <a rel="nofollow" href="minecrowdfunding.html"><i class="glyphicon glyphicon-user"></i> 我的众筹</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </nav>
-                </div>
-            </div>
-        </div>
+       	<%@ include file="../commons/nav.jsp" %>
     
     
         <div class="container">
@@ -115,13 +69,14 @@
                 <div class="col-md-12 column">
                     <div class="jumbotron nofollow" style="    padding-top: 10px;">
                         <h3>
-                            酷驰触控龙头，智享厨房黑科技
+                      ${project.name }
                         </h3>
                         <div style="float:left;width:70%;">
-                            智能时代，酷驰触控厨房龙头，让煮妇解放双手，触发更多烹饪灵感，让美味信手拈来。
+                         ${project.remark }
                         </div>
                         <div style="float:right;">
-                            <button type="button" class="btn btn-default"><i style="color:#f60" class="glyphicon glyphicon-heart"></i> 关注 111</button>
+                            <button type="button" class="btn btn-default" onclick="follow(${project.id},this)" id="follow_btn">
+                            <i style='color:${isFollow==1? "grey" : "#f60"}' class="glyphicon glyphicon-heart" id="heart"></i> 关注 ${project.follower }</button>
                         </div>
                     </div>
                 </div>
@@ -140,19 +95,24 @@
                         <div class="col-md-4 column">
                             <div class="panel panel-default" style="border-radius: 0px;">
                                 <div class="panel-heading" style="background-color: #fff;border-color: #fff;">
-                                    <span class="label label-success"><i class="glyphicon glyphicon-tag"></i> 众筹中</span>
+                                    <span class="label label-success"><i class="glyphicon glyphicon-tag"></i> 
+                                    	<c:if test="${project.status==0 }">即将开始</c:if>
+                                    	<c:if test="${project.status==1 }">众筹中</c:if>
+                                    	<c:if test="${project.status==2 }">众筹成功</c:if>
+                                    	<c:if test="${project.status==3 }">众筹失败</c:if>
+                                    </span>
                                 </div>
                                 <div class="panel-body">
                                     <h3 >
-                                        已筹资金：￥50000.00
+                                        已筹资金：${project.supportmoney }
                                     </h3>
-                                    <p><span>目标金额 ： 1000.00</span><span style="float:right;">达成 ： 60%</span></p>
+                                    <p><span>目标金额 ： ${project.money }</span><span style="float:right;">达成 ： ${100*project.supportmoney/project.money }%</span></p>
                                     <div class="progress" style="height:10px; margin-bottom: 5px;">
-                                      <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
+                                      <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:  ${100*project.supportmoney/project.money}%;"></div>
                                     </div>
-                                    <p>剩余 15 天</p>
+                                    <p>剩余 ${remainDay } 天</p>
                                     <div>
-                                     <p><span>已有629人支持该项目</p>
+                                     <p><span>已有${project.supporter }人支持该项目</p>
                                      <button type="button" class="btn  btn-warning btn-lg btn-block" data-toggle="modal" data-target="#myModal">立即支持</button>
                                     </div>
                                 </div>
@@ -168,14 +128,14 @@
                                 <div class="col-md-9 column">
                                     <div class="">
                                         <h4>
-                                            <b>福建省南安厨卫</b> <span style="float:right;font-size:12px;" class="label label-success">已认证</span>
+                                            <b>${project.member.introduce }</b> <span style="float:right;font-size:12px;" class="label label-success">已认证</span>
                                         </h4>
                                         <p style="font-size:12px">
-                                            酷驰是一家年轻的厨卫科技公司，我们有一支朝气蓬勃，有激情、有想法、敢实践的团队。
+                                            ${project.member.describe1 }
 
                                         </p>
                                         <p style="font-size:12px">
-                                        客服电话:0595-86218855
+                                        客服电话:${project.member.cutomtel }
                                         </p>
                                     </div>
                                 </div>
@@ -183,35 +143,24 @@
                         </div>
                     </div>
                 </div>
-					<div class="panel panel-default" style="border-radius: 0px;">
-						<div class="panel-heading">
-							<h3 >
-								￥1.00 <span style="float:right;font-size:12px;">无限额，447位支持者</span>
-							</h3>
+					<c:forEach items="${ret }" var="item">
+						<div class="panel panel-default" style="border-radius: 0px;">
+							<div class="panel-heading">
+								<h3 >
+									￥${item.supportmoney } <span style="float:right;font-size:12px;">限一份，${item.count }位支持者</span>
+								</h3>
+							</div>
+							<div class="panel-body">
+	                            <p>配送费用：包邮</p>
+	                            <p>预计发放时间：项目筹款成功后的${project.deploydate }天内</p>
+	                            <button type="button" class="btn  btn-warning btn-lg" onclick="window.location.href='pay-step1?returnid='+${item.id }+'&projectid='+${project.id} ">支持</button>
+	                            <br><br>
+	                            <p>${item.content }</p>
+							</div>
 						</div>
-						<div class="panel-body">
-                            <p>配送费用：包邮</p>
-                            <p>预计发放时间：项目筹款成功后的50天内</p>
-                            <button type="button" class="btn  btn-warning btn-lg" onclick="window.location.href='pay-step-1.html'">支持</button>
-                            <br><br>
-                            <p>感谢您的支持，在众筹开始后，您将以79元的优惠价格获得“遇见彩虹?”智能插座一件（参考价208元）。</p>
-						</div>
-					</div>
+					</c:forEach>
                     
-					<div class="panel panel-default" style="border-radius: 0px;">
-						<div class="panel-heading">
-							<h3 >
-								￥149.00 <span style="float:right;font-size:12px;">限额2000位，剩余1966位</span>
-							</h3>
-						</div>
-						<div class="panel-body">
-                            <p>配送费用：包邮</p>
-                            <p>预计发放时间：项目筹款成功后的50天内</p>
-                            <button type="button" class="btn  btn-warning btn-lg" onclick="window.location.href='pay-step-1.html'">支持</button>
-                            <br><br>
-                            <p>感谢您的支持，在众筹开始后，您将以79元的优惠价格获得“遇见彩虹?”智能插座一件（参考价208元）。</p>
-						</div>
-					</div>
+					
 					<div class=" panel panel-default" style="border-radius: 0px;">
 						<div class="panel-heading">
 							<h3 >
@@ -278,49 +227,23 @@
 	<div class="row clearfix">
 		<div class="col-sm-3 col-md-3 column" id="myScrollspy">
             <ul class="nav nav-tabs nav-stacked">
-                <li class="active"><a href="#section-1">￥1.00</a></li>
-                <li class="active"><a href="#section-2">￥149.00</a></li>
-                <li class="active"><a href="#section-3">￥249.00</a></li>
-                <li class="active"><a href="#section-4">￥549.00</a></li>
-                <li class="active"><a href="#section-5">￥1999.00</a></li>
+            <c:forEach items="${project.returnList }" var="ret">
+                <li class="active"><a href="#section-1">￥${ret.supportmoney }</a></li>
+             </c:forEach>
             </ul>
 		</div>
 		<div id="navList" class="col-sm-9 col-md-9 column" style="height:400px;overflow-y:auto;">
-            <h2 id="section-1" style="border-bottom:1px dashed #ddd;" ><span style="font-size:20px;font-weight:bold;">￥1.00</span><span style="font-size:12px;margin-left:60px;">无限额，223位支持者</span></h2>
-            <p>配送费用：全国包邮</p>
-            <p>预计发放时间：项目筹款成功后的30天内</p>
-            <button type="button" class="btn  btn-warning btn-lg " onclick="window.location.href='pay-step-1.html'">支持</button>
-            <br><br>
-            <p>每满1750人抽取一台活性富氢净水直饮机，至少抽取一台。抽取名额（小数点后一位四舍五入）=参与人数÷1750人，由苏宁官方抽取。</p>
+         	 <c:forEach items="${ret }" var="ret">
+	            <h2 id="section-1" style="border-bottom:1px dashed #ddd;" >
+	            <span style="font-size:20px;font-weight:bold;">￥${ret.supportmoney }</span>
+	            <span style="font-size:12px;margin-left:60px;">限额一份，${ret.count }位支持者</span></h2>
+	            <p>配送费用：全国包邮</p>
+	            <p>预计发放时间：项目筹款成功后的${project.deploydate }天内</p>
+	            <button type="button" class="btn  btn-warning btn-lg " onclick="window.location.href='pay-step1?returnid='+${ret.id }+'&projectid='+${project.id} ">支持</button>
+	            <br><br>
+	            <p>${ret.content }</p>
+            </c:forEach>
             <hr>
-            <h2 id="section-2" style="border-bottom:1px dashed #ddd;" ><span style="font-size:20px;font-weight:bold;">￥149.00</span><span style="font-size:12px;margin-left:60px;">无限额，223位支持者</span></h2>
-            <p>配送费用：全国包邮</p>
-            <p>预计发放时间：项目筹款成功后的30天内</p>
-            <button type="button" class="btn  btn-warning btn-lg " onclick="window.location.href='pay-step-1.html'">支持</button>
-            <br><br>
-            <p>每满1750人抽取一台活性富氢净水直饮机，至少抽取一台。抽取名额（小数点后一位四舍五入）=参与人数÷1750人，由苏宁官方抽取。</p>
-            <hr>
-            <h2 id="section-3" style="border-bottom:1px dashed #ddd;" ><span style="font-size:20px;font-weight:bold;">￥249.00</span><span style="font-size:12px;margin-left:60px;">无限额，223位支持者</span></h2>
-            <p>配送费用：全国包邮</p>
-            <p>预计发放时间：项目筹款成功后的30天内</p>
-            <button type="button" class="btn  btn-warning btn-lg " onclick="window.location.href='pay-step-1.html'">支持</button>
-            <br><br>
-            <p>每满1750人抽取一台活性富氢净水直饮机，至少抽取一台。抽取名额（小数点后一位四舍五入）=参与人数÷1750人，由苏宁官方抽取。</p>
-            <hr>
-            <h2 id="section-4" style="border-bottom:1px dashed #ddd;" ><span style="font-size:20px;font-weight:bold;">￥549.00</span><span style="font-size:12px;margin-left:60px;">无限额，223位支持者</span></h2>
-            <p>配送费用：全国包邮</p>
-            <p>预计发放时间：项目筹款成功后的30天内</p>
-            <button type="button" class="btn  btn-warning btn-lg " onclick="window.location.href='pay-step-1.html'">支持</button>
-            <br><br>
-            <p>每满1750人抽取一台活性富氢净水直饮机，至少抽取一台。抽取名额（小数点后一位四舍五入）=参与人数÷1750人，由苏宁官方抽取。</p>
-            <hr>
-            <h2 id="section-5" style="border-bottom:1px dashed #ddd;" ><span style="font-size:20px;font-weight:bold;">￥1999.00</span><span style="font-size:12px;margin-left:60px;">无限额，223位支持者</span></h2>
-            <p>配送费用：全国包邮</p>
-            <p>预计发放时间：项目筹款成功后的30天内</p>
-            <button type="button" class="btn  btn-warning btn-lg " onclick="window.location.href='pay-step-1.html'">支持</button>
-            <br><br>
-            <p>每满1750人抽取一台活性富氢净水直饮机，至少抽取一台。抽取名额（小数点后一位四舍五入）=参与人数÷1750人，由苏宁官方抽取。</p>
-            </div>
         </div>
 	</div>
 </div>
@@ -333,11 +256,37 @@
     <script src="bootstrap/js/bootstrap.min.js"></script>
 	<script src="script/docs.min.js"></script>
     <script src="script/back-to-top.js"></script>
+    <script type="text/javascript" src="layer/layer.js"></script>
 	<script>
-    $(".prjtip img").css("cursor", "pointer");
-    $(".prjtip img").click(function(){
-        window.location.href = 'project.html';
-    });
+	    $(".prjtip img").css("cursor", "pointer");
+	    $(".prjtip img").click(function(){
+	        window.location.href = 'project.html';
+	    });
+	    
+	    function follow(id,obj){
+	    	var str="";
+	    	$.post(
+    			"followProject",
+    	    	{"id":id},
+    	    	function(data){
+    	    		if(data.code==-1){
+    	    			layer.msg(data.message, {
+    			    	    time: -1, //20s后自动关闭
+    			    	    icon:5,
+    			    	   /*  shift:6, */
+    			    	    btn: ['知道了','明白了']
+    			    	 });
+    	    			return;
+    	    		}
+    	    		if(data.code==0){
+    	    			str+=' <i style="color:#f60" class="glyphicon glyphicon-heart" id="heart"></i> 关注'+data.obj;
+    	    		}else{
+    	    			str+=' <i style="color:grey" class="glyphicon glyphicon-heart" id="heart"></i> 关注'+data.obj;
+    	    		}
+    	    		$("#follow_btn").html(str);
+    	    	}	
+	    	);
+	    }
 	</script>
   </body>
 </html>

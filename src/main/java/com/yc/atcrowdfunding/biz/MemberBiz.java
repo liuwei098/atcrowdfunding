@@ -12,6 +12,7 @@ import com.github.pagehelper.PageHelper;
 import com.yc.atcrowdfunding.bean.TMember;
 import com.yc.atcrowdfunding.bean.TMemberExample;
 import com.yc.atcrowdfunding.dao.TMemberMapper;
+import com.yc.atcrowdfunding.util.MD5Util;
 import com.yc.atcrowdfunding.vo.Result;
 
 @Service
@@ -20,6 +21,9 @@ public class MemberBiz {
 	private TMemberMapper tmm;
 	@Resource
 	private SendMailService mailService;
+	
+	@Resource
+	private MD5Util util;
 	//查询所有未实名验证的会员
 	public Result findReviewMember(int pageNum,int pageSize){
 		TMemberExample example=new TMemberExample();
@@ -77,4 +81,28 @@ public class MemberBiz {
 		result.setTotalPage( total%pageSize==0 ? total/pageSize:((total/pageSize)+1));
 		return result;
 	}
+
+	public Result login(String loginacct, String password) {
+		TMemberExample example=new TMemberExample();
+		password=util.string2MD5(loginacct+password);
+		example.createCriteria().andLoginacctEqualTo(loginacct).andUserpswdEqualTo(password);
+		List<TMember> list=tmm.selectByExample(example);
+		Result result=new Result();
+		if(list==null || list.isEmpty()){
+			result.setCode(0);
+			result.setMessage("用户名或者密码错误");
+			return result;
+		}
+		result.setCode(1);
+		result.setObj(list.get(0));
+		return result;
+	}
+	
+	public void register(TMember member){
+		member.setUsername("  ");
+		member.setAuthstatus("0");
+		member.setUserpswd(util.string2MD5(member.getUserpswd()));
+		tmm.insertSelective(member);
+	}
+	
 }

@@ -24,7 +24,19 @@
     <result column="auditingtime" jdbcType="TIMESTAMP" property="auditingtime" />
     <result column="details" jdbcType="VARCHAR" property="details" />
     <result column="titleimg" jdbcType="VARCHAR" property="titleimg" />
+     <!--   项目和会员的一对一映射 -->
+     <association property="member" column="memberid" 
+     fetchType="lazy" select="com.yc.atcrowdfunding.dao.TMemberMapper.selectByPrimaryKey"></association>
+ <!--     <collection property="returnList" column="id" fetchType="lazy" select="selectByProjectId"></collection> -->
   </resultMap>
+  
+  <select id="getRemainDay" resultType="double">
+  	select ( (UNIX_TIMESTAMP(now())- UNIX_TIMESTAMP(createtime))/60/60/24) from t_project where id=#{id}
+  </select>
+  <select id="selectByProjectId" resultMap="com.yc.atcrowdfunding.dao.TReturnMapper.BaseResultMap">
+  		select * from t_return where projectid=#{id}
+  </select>
+  
   <sql id="Example_Where_Clause">
     <!--
       WARNING - @mbggenerated

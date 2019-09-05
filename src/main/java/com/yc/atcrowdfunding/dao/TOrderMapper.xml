@@ -20,6 +20,18 @@
     <result column="invoice" property="invoice" jdbcType="CHAR" />
     <result column="invoictitle" property="invoictitle" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
+   <!--  用户和订单一对一关联 -->
+    <association property="member" column="memberid"  fetchType="lazy" 
+    	select="com.yc.atcrowdfunding.dao.TMemberMapper.selectByPrimaryKey">
+    </association>
+   <!--    项目和订单一对一关联 -->
+    <association property="project" column="projectid"  fetchType="lazy" 
+    	select="com.yc.atcrowdfunding.dao.TProjectMapper.selectByPrimaryKey">
+    </association>
+    <!--    回报和订单一对一关联 -->
+     <association property="ret" column="returnid"  fetchType="lazy" 
+    	select="com.yc.atcrowdfunding.dao.TReturnMapper.selectByPrimaryKey">
+    </association>
   </resultMap>
   <sql id="Example_Where_Clause" >
     <!--

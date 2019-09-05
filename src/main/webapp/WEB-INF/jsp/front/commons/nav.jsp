@@ -7,7 +7,7 @@
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul class="nav navbar-nav">
                                 <li>
-                                    <a rel="nofollow" href="index.html"><i class="glyphicon glyphicon-home"></i> 众筹首页</a>
+                                    <a rel="nofollow" href="index"><i class="glyphicon glyphicon-home"></i> 众筹首页</a>
                                 </li>
                                 <li class="active">
                                     <a rel="nofollow" href="projects"><i class="glyphicon glyphicon-th-large"></i> 项目总览</a>
@@ -16,7 +16,7 @@
                                     <a rel="nofollow" href="start.html"><i class="glyphicon glyphicon-edit"></i> 发起众筹</a>
                                 </li>
                                 <li>
-                                    <a rel="nofollow" href="minecrowdfunding.html"><i class="glyphicon glyphicon-user"></i> 我的众筹</a>
+                                    <a rel="nofollow" href="minecrowdfunding"><i class="glyphicon glyphicon-user"></i> 我的众筹</a>
                                 </li>
                             </ul>
                         </div>

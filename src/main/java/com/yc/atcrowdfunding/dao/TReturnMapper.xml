@@ -18,6 +18,10 @@
     <result column="freight" property="freight" jdbcType="INTEGER" />
     <result column="invoice" property="invoice" jdbcType="CHAR" />
     <result column="rtndate" property="rtndate" jdbcType="INTEGER" />
+    <association property="project" column="projectid" fetchType="lazy" 
+    	select="com.yc.atcrowdfunding.dao.TProjectMapper.selectByPrimaryKey">
+    
+    </association>
   </resultMap>
   <sql id="Example_Where_Clause" >
     <!--

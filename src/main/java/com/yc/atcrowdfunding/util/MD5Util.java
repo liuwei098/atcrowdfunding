@@ -2,6 +2,9 @@ package com.yc.atcrowdfunding.util;
 
 import java.security.MessageDigest;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class MD5Util {  
 	  
     /*** 
@@ -47,6 +50,9 @@ public class MD5Util {
   
     }  
   
-   
+   public static void main(String[] args) {
+	   MD5Util util=new MD5Util();
+	   System.out.println( util.string2MD5("chm123456"));
+   }
   
 }  

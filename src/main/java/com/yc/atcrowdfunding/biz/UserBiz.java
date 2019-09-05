@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.print.DocFlavor.READER;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.stereotype.Service;
@@ -95,6 +96,21 @@ public class UserBiz {
 		tu.setCreatetime(new Date());
 		
 		tum.insertSelective(tu);
+	}
+
+	public Result login(String loginacct, String password) {
+		Result result=new Result();
+		TUserExample example=new TUserExample();
+		example.createCriteria().andLoginacctEqualTo(loginacct).andUserpswdEqualTo(password);
+		List<TUser> list=tum.selectByExample(example);
+		if(list==null || list.isEmpty()){
+			result.setCode(0);
+			result.setMessage("用户名或密码错误");
+			return result;
+		}
+		result.setCode(1);
+		result.setObj(list.get(0));
+		return result;
 	}
 	
 }

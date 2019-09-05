@@ -108,11 +108,10 @@ h3.break>a {
                         <div class="panel-body">
                             <ul id="typeList" style="list-style: none;">
 								<li>分类：<span class="label-type active " onclick="changeType(this);filter()" value="-1">全部</span> 
-									<span class="label-text1" onclick="changeType(this);filter()" value="1">科技</span> 
-									<span class="label-text1" onclick="changeType(this)">设计</span> 
-									<span class="label-text1" onclick="changeType(this)">公益</span>
-									<span class="label-text1" onclick="changeType(this)">农业</span> 
-									<span class="label-text1" onclick="changeType(this)">文化</span>
+									<c:forEach items="${typeList }" var="type">
+										<span class="label-text1" onclick="changeType(this);filter()" value="${type.id }">${type.name }</span>
+									</c:forEach> 
+									
 								</li>
 								<li>状态：<span class="label-status actvie" onclick="changeStatues(this);filter()" value="-1">全部</span> 
 									<span	class="label-text2" onclick="changeStatues(this);filter()" value="0">即将开始</span> 
@@ -350,17 +349,16 @@ h3.break>a {
 			function(data){
 				if(data.code==200){
 					showProjects(data.obj);
-				}/*  else{
+				}  else{
 					layer.msg(data.message, {
 			    	    time: 2000, //20s后自动关闭
 			    	    icon:5,
 			    	   
 			    	    btn: ['明白了', '知道了']
 			    	 });
-				}  */
+				}  
 				
-			},
-			"json"
+			}
 		);
 		
 	}

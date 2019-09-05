@@ -50,7 +50,22 @@ public class MemberApplyBiz {
 				count=1;
 			}
 		}
-		
+		if("loginacct".equals(name)){
+			example.createCriteria().andLoginacctEqualTo(value);
+			list=tm.selectByExample(example);
+			if(null != list && !list.isEmpty()){
+				result.setMessage("账号已存在");
+				count=1;
+			}
+		}
+		if("email".equals(name)){
+			example.createCriteria().andEmailEqualTo(value);
+			list=tm.selectByExample(example);
+			if(null != list && !list.isEmpty()){
+				result.setMessage("邮箱已被注册");
+				count=1;
+			}
+		}
 		//检验电话号码
 		if("tel".equals(name)){
 			example.createCriteria().andTelEqualTo(value);

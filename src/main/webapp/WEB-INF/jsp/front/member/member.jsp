@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
   <head>
@@ -62,9 +63,19 @@
 						<img src="img/services-box1.jpg" class="img-thumbnail" alt="">
 						<div class="caption" style="text-align:center;">
 							<h3>
-								ZhangSan
+								${loginMember.loginacct}
 							</h3>
-							<span class="label label-danger" style="cursor:pointer;" onclick="window.location.href='member_accttype'">未实名认证</span>
+							<span class="label label-danger" style="cursor:pointer;" onclick="window.location.href='member_accttype'">	<span class="label label-danger" style="cursor:pointer;" onclick="window.location.href='member_accttype'">
+								<c:if test="${loginMember.authstatus==0 }">
+									未实名认证
+								</c:if>
+								<c:if test="${loginMember.authstatus==1 }">
+									实名认证审核中
+								</c:if>
+								<c:if test="${loginMember.authstatus==2 }">
+									已实名认证
+								</c:if>
+							</span></span>
 						</div>
 					</div>
 				</div>
@@ -73,7 +84,7 @@
 				<div class="list-group-item active">
 					资产总览<span class="badge"><i class="glyphicon glyphicon-chevron-right"></i></span>
 				</div>
-				<div class="list-group-item " style="cursor:pointer;" onclick="window.location.href='minecrowdfunding.html'">
+				<div class="list-group-item " style="cursor:pointer;" onclick="window.location.href='minecrowdfunding'">
 					我的众筹<span class="badge"><i class="glyphicon glyphicon-chevron-right"></i></span>
 				</div>
 			</div>

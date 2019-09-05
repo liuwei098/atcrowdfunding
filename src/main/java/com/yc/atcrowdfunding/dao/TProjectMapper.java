@@ -12,6 +12,8 @@ public interface TProjectMapper {
      *
      * @mbggenerated Fri Aug 23 09:32:12 GMT+08:00 2019
      */
+	double getRemainDay(int id);
+	
     int countByExample(TProjectExample example);
 
     /**

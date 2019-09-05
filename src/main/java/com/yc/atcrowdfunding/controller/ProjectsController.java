@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yc.atcrowdfunding.bean.TType;
+import com.yc.atcrowdfunding.biz.ProjectBiz;
 import com.yc.atcrowdfunding.biz.ProjectTypeBiz;
 import com.yc.atcrowdfunding.biz.ProjectsBiz;
 import com.yc.atcrowdfunding.vo.Result;
@@ -21,6 +22,8 @@ public class ProjectsController {
 	private ProjectsBiz pbiz;
 	@Resource
 	private ProjectTypeBiz tbiz;
+	@Resource
+	private ProjectTypeBiz ptbiz;
 	//此变量暂时没用
 	private final String PATH="D:/blog/";
 	@RequestMapping("projects")
@@ -37,6 +40,7 @@ public class ProjectsController {
 		result.setTotalPage(total%pageSize==0 ? total/pageSize:((total/pageSize)+1));
 		result.setMessage("projects");
 		model.addAttribute("result", result);
+		model.addAttribute("typeList",ptbiz.findByTerm(null, page, pageSize));
 		return "front/project/projects";
 	}
 	

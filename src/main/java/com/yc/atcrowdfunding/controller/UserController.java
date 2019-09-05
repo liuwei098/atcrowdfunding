@@ -138,7 +138,26 @@ public class UserController {
 	public String assignRole() {
 		return "user/assignRole";
 	}
+	
+	@RequestMapping("user_tologin")
+	public String tologin(){
+		return "user/login";
+	}
  	
+	@RequestMapping("user_login")
+	@ResponseBody
+	public Result UserLogin(String loginacct,String password,HttpSession session){
+		Result result=new Result();
+		try{
+			result=ubiz.login(loginacct,password);
+			session.setAttribute("loginUser", result.getObj());
+		}catch(RuntimeException e){
+			e.printStackTrace();
+			result.setCode(0);
+			result.setMessage("服务器繁忙，稍后再试！！");
+		}
+		return result;
+	}
 	
 }
  
