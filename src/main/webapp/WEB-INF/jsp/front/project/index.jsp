@@ -13,6 +13,8 @@
 	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/font-awesome.min.css">
 	<link rel="stylesheet" href="css/carousel.css">
+	<link rel="stylesheet" type="text/css" href="easyui/css/easyui.css" />
+	<link rel="stylesheet" type="text/css" href="easyui/css/icon.css" />
 	<title>众筹网首页</title>
 	<style>
     h3 {
@@ -267,9 +269,20 @@ h3.break>a {
     <script src="bootstrap/js/bootstrap.min.js"></script>
 	<script src="script/docs.min.js"></script>
     <script src="script/back-to-top.js"></script>
+    <script type="text/javascript" src="jquery/lsbridge.min.js"></script>
+    <script type="text/javascript" src="easyui/js/jquery.min.js"></script>
+    <script type="text/javascript" src="easyui/js/jquery.easyui.min.js"></script>
     <script>
-    $(".thumbnail img").css("cursor", "pointer");
-   
+   		 $(".thumbnail img").css("cursor", "pointer");
+        lsbridge.subscribe('project_success', function(data) {
+        	$.messager.show({  
+    	        title:'公告',  
+    	        msg:data.message,  
+    	        showType:'show',
+    	        timeout:0
+    	   }); 
+        });
+   		
     </script>
   </body>
 </html>

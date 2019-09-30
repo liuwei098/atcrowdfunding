@@ -40,7 +40,8 @@ public class ProjectsController {
 		result.setTotalPage(total%pageSize==0 ? total/pageSize:((total/pageSize)+1));
 		result.setMessage("projects");
 		model.addAttribute("result", result);
-		model.addAttribute("typeList",ptbiz.findByTerm(null, page, pageSize));
+		
+		model.addAttribute("typeList",ptbiz.findAll1());
 		return "front/project/projects";
 	}
 	

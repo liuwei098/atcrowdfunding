@@ -102,4 +102,59 @@ public class MemberController {
 		return result;
 	}
 	
+	@RequestMapping("member_logout")
+	public String logout(HttpSession session){
+		session.removeAttribute("loginMember");
+		return "redirect:member_tologin";
+	}
+	
+	@RequestMapping("member_findPwd")
+	public String findPwd(HttpSession session){
+		session.removeAttribute("loginMember");
+		return "front/member/findPwd";
+	}
+	
+	@RequestMapping("member_toupdatePwd")
+	public String toupdatePwd(HttpSession session){
+		return "front/member/updatePwd";
+	}
+	
+	@RequestMapping("findPwd_sendEmail")
+	@ResponseBody
+	public Result sendMail(String email,HttpSession session){
+		Result result=new Result();
+		try{
+			result=mbiz.findByEmail(email,session);
+		}catch(RuntimeException e){
+			result.setCode(500);
+			result.setMessage("服务器繁忙，稍后再试!!!");
+		}
+		return result;
+	}
+	
+	@RequestMapping("member_updatePwd")
+	@ResponseBody
+	public Result updatePwd(int id,String password){
+		Result result=new Result();
+		try{
+			mbiz.updatePwdById(id, password);
+			result.setCode(1);
+			result.setMessage("修改密码成功,去登陆吧");
+		}catch(RuntimeException e){
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	@RequestMapping("findPwd_checkCode")
+	@ResponseBody
+	public Result checkCode(String code,@SessionAttribute("emailCode") String emailCode){
+		Result result=new Result();
+		if(!emailCode.equals(code)){
+			result.setCode(0);
+			result.setMessage("验证码错误");
+		}
+		result.setCode(1);
+		return result;
+	}
 }

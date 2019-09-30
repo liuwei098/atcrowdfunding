@@ -149,7 +149,8 @@
                                 </div>
                             </div>
 
-                        <div id="address" class="container-fluid">
+                       <c:if test="${order.ret.type==0 }">
+                       		 <div id="address" class="container-fluid">
                             <div class="row clearfix">
                                 <div class="col-md-12 column">
                                     <blockquote style="border-left: 5px solid #f60;color:#f60;padding: 0 0 0 20px;">
@@ -218,6 +219,14 @@
                                 </div>
                             </div>
                         </div>
+                          </c:if>
+                          <c:if test="${order.ret.type==1 }">
+                          		 <form class="form-horizontal" action="payOrder1" id="payForm">
+                                                <input name="id" type="hidden" id="oid">
+                                                 
+                                             
+                               	 </form>
+                          </c:if>
                         <div class="container-fluid">
                             <div class="row clearfix">
                                 <div class="col-md-12 column">
@@ -226,6 +235,7 @@
                                 </div>
                             </div>
                         </div>
+                     
                         <div class="container-fluid">
                             <div class="row clearfix">
                                 <div class="col-md-12 column">
@@ -286,7 +296,13 @@
                                                 请在下单后15分钟内付款，否则您的订单会被自动关闭。
                                                 </li>
                                                 <li style="margin-top:10px;">
-                                                <button id="btn" disabled="disabled" type="button" class="btn btn-warning btn-lg" onclick="payOrder()"><i class="glyphicon glyphicon-credit-card"></i> 立即付款</button>
+                                               <c:if test="${order.ret.type==0 }">
+                                               	 <button id="btn" disabled="disabled" type="button" class="btn btn-warning btn-lg" onclick="payOrder()"><i class="glyphicon glyphicon-credit-card"></i> 立即付款</button>
+                                               </c:if>
+                                               
+                                               <c:if test="${order.ret.type==1 }">
+                                               	 <button id="btn" disabled="disabled" type="button" class="btn btn-warning btn-lg" onclick="payOrder2()"><i class="glyphicon glyphicon-credit-card"></i> 立即付款</button>
+                                               </c:if>
                                                 </li>
                                                 <li style="margin-top:10px;">
                                                   <div class="checkbox">
@@ -374,6 +390,7 @@
 			if(info=='option2'){
 				
 			}else{
+				
 				address=info.substring(info.lastIndexOf(",")+1);
 				remark=info.substring(0,info.indexOf(","));
 				invoictitle=info.substring(info.indexOf(",")+1,info.lastIndexOf(","));
@@ -386,6 +403,14 @@
 			
 			$("#oid").val(oid);
 			
+			$("#payForm").submit();
+			
+		}
+		
+		function payOrder2(){
+			var oid=getOrderid();
+			oid=oid.split("#")[0];
+			$("#oid").val(oid);
 			$("#payForm").submit();
 			
 		}

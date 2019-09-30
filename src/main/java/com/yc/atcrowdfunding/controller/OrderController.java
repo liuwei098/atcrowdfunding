@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.yc.atcrowdfunding.bean.TMember;
+import com.yc.atcrowdfunding.bean.TOrder;
 import com.yc.atcrowdfunding.biz.OrderBiz;
 import com.yc.atcrowdfunding.biz.ProjectBiz;
 import com.yc.atcrowdfunding.vo.Result;
@@ -74,4 +75,35 @@ public class OrderController {
 		return result;
 	}
 	
+	@RequestMapping("orderDetail")
+	public String orderDetail(int id,Model model){
+		TOrder order=obiz.findOrderById(id);
+		model.addAttribute("order", order);
+		return "/front/member/orderDetail";
+	}
+	
+	@RequestMapping("findTypeMoney")
+	@ResponseBody
+	public Result findTypeMoney(){
+		Result result=new Result();
+		result=obiz.findMoneyByType();
+		return result;
+	}
+	
+	@RequestMapping("findRetTypeMoney")
+	@ResponseBody
+	public Result findRetTypeMoney(){
+		Result result=new Result();
+		result=obiz.findRetMoney();
+		return result;
+	}
+	
+	@RequestMapping("getMonthSupportMoney")
+	@ResponseBody
+	public Result getMonthSupportMoney(){
+		Result result=new Result();
+		result=obiz.getMonthMoney();
+		System.out.println(result);
+		return result;
+	}
 }

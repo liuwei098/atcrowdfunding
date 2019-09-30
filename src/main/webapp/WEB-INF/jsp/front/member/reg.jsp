@@ -12,6 +12,7 @@
 	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/font-awesome.min.css">
 	<link rel="stylesheet" href="css/login.css">
+	<link rel="stylesheet" href="css/style1.css">
 	<style>
 
 	</style>
@@ -55,6 +56,7 @@
               <input type="text" placeholder="请输入验证码..." name="code" id="code">
              <a href="javascript:change();"> <img src="getValidCode" id="pic" style="width:80px" height="40px"></a>
 		  </div>
+		   <div id="slideBar"></div>
         <div class="checkbox">
           <label>
             忘记密码
@@ -63,22 +65,36 @@
             <a href="member_tologin">我有账号</a>
           </label>
         </div>
-        <a class="btn btn-lg btn-success btn-block" href="javascript:nextApply()"> 注册</a>
+     
       </form>
     </div>
     <script src="jquery/jquery-2.1.1.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
      <script type="text/javascript" src="layer/layer.js"></script>
+     <script type="text/javascript" src="jquery/style.js"></script>
     <script type="text/javascript">
+    var dataList = ["0","1"];
+    var options = {
+        dataList: dataList,
+        success:function(){  
+           nextApply();
+        },
+        fail: function(){
+             
+        }
+    };
+    SliderBar("slideBar", options);
+    
 	    function change() {
 			document.getElementById("pic").src = "getValidCode?time=" + new Date().getTime();
 		}
 	  //检验用户名和邮箱是否重复
         function filterRepeat(name,value){
         	$.post(
-        		"member_check_repeat",
+        		"member_check_repeat1",
         		{"name":name,"value":value},
         		function(data){
+        			console.log(data);
        				if(name=="loginacct"){
        					if(data.code==1){
        						$("#loginacctInfo").html(data.message);
@@ -108,7 +124,7 @@
         	var name=obj.id;
    			if(name=="loginacct"){
 	        	if(value.length<3 || value.length>8){
-	        		$("#loginacctInfo").html("请输入6-8个字符");
+	        		$("#loginacctInfo").html("请输入3-8个字符");
 	        		$("#loginacctInfo").css("color",'red');
 	        		
 	        	}else{

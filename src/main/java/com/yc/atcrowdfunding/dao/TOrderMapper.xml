@@ -33,6 +33,9 @@
     	select="com.yc.atcrowdfunding.dao.TReturnMapper.selectByPrimaryKey">
     </association>
   </resultMap>
+  <select id="selectMoneyByMonth" resultType="java.lang.Integer">
+  		select sum(money) from t_order where substring(createdate, 6,2)=#{month}
+  </select>
   <sql id="Example_Where_Clause" >
     <!--
       WARNING - @mbggenerated

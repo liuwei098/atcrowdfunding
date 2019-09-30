@@ -61,8 +61,8 @@
 			 <span id="cutominfo" style="width: 50px;height: 40px;"></span>
 		  </div>
 		   <div class="form-group">
-			<label for="exampleInputPassword4" ">公司简介</label><br>
-			<textarea  rows="5" cols="50" name="introduce" placeholder="公司简介不超过50个字" id="exampleInputPassword4"></textarea>
+			<label for="exampleInputPassword4" ">公司名字</label><br>
+			<textarea  rows="5" cols="50" name="introduce" placeholder="公司名字不超过50个字" id="exampleInputPassword4"></textarea>
 		  </div>
 		  
 		  <div class="form-group">

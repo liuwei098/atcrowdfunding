@@ -28,9 +28,9 @@ public class LoginInterceptor implements HandlerInterceptor{
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object action) throws Exception {
 		
-		if(request.getSession().getAttribute("loginUser")==null){
+		if(request.getSession().getAttribute("loginMember")==null){
 			if(request.getHeader("X-Requested-With")==null){
-				response.sendRedirect("index?login");
+				response.sendRedirect("member_tologin");
 			}/*else{
 				Gson gson=new Gson();
 				String json=gson.toJson(new Result(0, "请先登录系统"));

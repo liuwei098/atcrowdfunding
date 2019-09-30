@@ -13,7 +13,7 @@
                                     <a rel="nofollow" href="projects"><i class="glyphicon glyphicon-th-large"></i> 项目总览</a>
                                 </li>
                                 <li>
-                                    <a rel="nofollow" href="start.html"><i class="glyphicon glyphicon-edit"></i> 发起众筹</a>
+                                    <a rel="nofollow" href="start"><i class="glyphicon glyphicon-edit"></i> 发起众筹</a>
                                 </li>
                                 <li>
                                     <a rel="nofollow" href="minecrowdfunding"><i class="glyphicon glyphicon-user"></i> 我的众筹</a>

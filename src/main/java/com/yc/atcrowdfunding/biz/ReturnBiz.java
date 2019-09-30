@@ -10,6 +10,7 @@ import com.yc.atcrowdfunding.bean.TMemberProjectFollowExample;
 import com.yc.atcrowdfunding.bean.TReturn;
 import com.yc.atcrowdfunding.bean.TReturnExample;
 import com.yc.atcrowdfunding.dao.TReturnMapper;
+import com.yc.atcrowdfunding.vo.Result;
 
 @Service
 public class ReturnBiz {
@@ -29,5 +30,17 @@ public class ReturnBiz {
 		ret.setCount(ret.getCount()+1);
 		trm.updateByPrimaryKeySelective(ret);
 	}
+	public void deleteRetById(int id) {
+		trm.deleteByPrimaryKey(id);
+	}
+	public void updateRetById(TReturn ret) {
+		ret.setCount(0);	
+		trm.updateByPrimaryKeySelective(ret);
+	}
+	public void addRet(TReturn ret) {
+		ret.setCount(0);
+		trm.insertSelective(ret);
+	}
+	
 	
 }

@@ -40,7 +40,7 @@
 			<label for="exampleInputEmail1">邮箱地址</label>
 			<input type="text" class="form-control" id="exampleInputEmail1" placeholder="请输入用于接收验证码的邮箱地址">
 		  </div>
-          <button type="button" onclick="window.location.href='apply-1.html'" class="btn btn-default">上一步</button>
+          <button type="button" onclick="window.location.href='member_apply-2'" class="btn btn-default">上一步</button>
 		  <button type="button" onclick="sendMail()"  class="btn btn-success">下一步</button>
 		</form>
 		<hr>

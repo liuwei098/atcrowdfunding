@@ -19,7 +19,7 @@
 	
 		<div id="container">
 			<form >
-				<div class="login">淘淘商城后台管理系统
+				<div class="login">众筹网后台管理系统
 				
 				<span style="color:red;"></span>
 				<span style="color:red"></span>

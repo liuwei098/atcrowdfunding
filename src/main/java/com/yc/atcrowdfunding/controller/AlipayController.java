@@ -120,4 +120,20 @@ public class AlipayController {
 		return AliPay(model);
 	}
 	
+	@RequestMapping("payOrder1")
+	public String payOrder1(Model model,TOrder order){
+		order=obiz.selectById(order.getId());
+		model.addAttribute("order", order);
+		return AliPay(model);
+	}
+	
+	@RequestMapping("updateMoney")
+	@ResponseBody
+	public Result updateMoney(String id){
+		Result result=new Result();
+		obiz.updateMoney(id);
+		System.out.println(id);
+		return result;
+	}
+	
 }

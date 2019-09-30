@@ -3,6 +3,7 @@ package com.yc.atcrowdfunding.biz;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +22,8 @@ public class MemberBiz {
 	private TMemberMapper tmm;
 	@Resource
 	private SendMailService mailService;
-	
+	@Resource
+	private ProjectBiz pbiz;
 	@Resource
 	private MD5Util util;
 	//查询所有未实名验证的会员
@@ -101,8 +103,47 @@ public class MemberBiz {
 	public void register(TMember member){
 		member.setUsername("  ");
 		member.setAuthstatus("0");
-		member.setUserpswd(util.string2MD5(member.getUserpswd()));
+		member.setUserpswd(util.string2MD5(member.getLoginacct()+member.getUserpswd()));
 		tmm.insertSelective(member);
+	}
+	
+	@Transactional
+	public Result checkCardnum(String introduce, String cardnum,String projectid) {
+		Result result=new Result();
+		TMemberExample example=new TMemberExample();
+		example.createCriteria().andRealnameEqualTo(introduce).andCardnumEqualTo(cardnum);
+		List<TMember> list=tmm.selectByExample(example);
+		if(list==null || list.isEmpty()){
+			result.setCode(0);
+			result.setMessage("信息核实失败，填写信息与实际信息不符！！");
+		}else{
+			pbiz.updateStatus(projectid);
+			result.setCode(1);
+		}
+		return result;
+	}
+
+	public Result findByEmail(String email,HttpSession session) {
+		Result result=new Result();
+		TMemberExample example=new TMemberExample();
+		example.createCriteria().andEmailEqualTo(email);
+		List<TMember> list=tmm.selectByExample(example);
+		if(list==null ||list.isEmpty()){
+			result.setCode(500);
+			result.setMessage("该邮箱还未注册");
+			return result;
+		}
+		result.setCode(1);
+		result.setObj(list.get(0).getId());
+		String code=mailService.sendEmail(email, "众筹网验证码");
+		session.setAttribute("emailCode", code);
+		return result;
+	}
+
+	public void updatePwdById(int id, String password) {
+		TMember member=tmm.selectByPrimaryKey(id);
+		member.setUserpswd(util.string2MD5(member.getLoginacct()+password));
+		tmm.updateByPrimaryKeySelective(member);
 	}
 	
 }

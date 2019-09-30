@@ -54,13 +54,28 @@
 		String total_amount = new String(request.getParameter("total_amount").getBytes("ISO-8859-1"),"UTF-8");
 		
 		out.println("trade_no:"+trade_no+"<br/>out_trade_no:"+out_trade_no+"<br/>total_amount:"+total_amount);
-		OrderBiz obiz=new OrderBiz();
-		obiz.updateMoney(out_trade_no);
+		
 	}else {
 		out.println("验签失败");
 	}
 	//——请在这里编写您的程序（以上代码仅作参考）——
 %>
+<a href="index">返回首页</a>
 <body>
+<script type="text/javascript" src="jquery/jquery-2.1.1.min.js"></script>
+<script type="text/javascript">
+	updateMoney();
+	function updateMoney(){
+		var url=window.location.href;
+		var id=url.split("out_trade_no=")[1].split("&")[0];
+		$.post(
+			"updateMoney",
+			{"id":id},
+			function(data){
+				
+			}
+		);
+	}
+</script>
 </body>
 </html>

@@ -12,6 +12,7 @@ public interface TOrderMapper {
      *
      * @mbggenerated Fri Aug 23 09:32:12 GMT+08:00 2019
      */
+	Integer selectMoneyByMonth(String month);
     int countByExample(TOrderExample example);
 
     /**

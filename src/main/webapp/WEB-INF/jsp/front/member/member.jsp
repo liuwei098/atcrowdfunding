@@ -60,7 +60,7 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="thumbnail" style="    border-radius: 0px;">
-						<img src="img/services-box1.jpg" class="img-thumbnail" alt="">
+						<img src="img/${loginMember.iconpath }" class="img-thumbnail" alt="">
 						<div class="caption" style="text-align:center;">
 							<h3>
 								${loginMember.loginacct}
@@ -98,7 +98,7 @@
             <div id="main" style="width: 600px;height:400px;"></div>
             <blockquote style="border-left: 5px solid #f60;color:#f60;padding: 0 0 0 20px;">
                                         <b>
-                                            理财
+                                        各分类投资数额
                                         </b>
                                     </blockquote>
             <div id="main1" style="width: 600px;height:400px;"></div>
@@ -131,103 +131,100 @@
 	<script src="script/docs.min.js"></script>
     <script src="script/back-to-top.js"></script>
     <script src="script/echarts.js"></script>
+     <script type="text/javascript" src="jquery/lsbridge.min.js"></script>
+    <script type="text/javascript" src="easyui/js/jquery.min.js"></script>
+    <script type="text/javascript" src="easyui/js/jquery.easyui.min.js"></script>
 	<script>
-$('#myTab a').click(function (e) {
-  e.preventDefault()
-  $(this).tab('show')
-})
-$('#myTab1 a').click(function (e) {
-  e.preventDefault()
-  $(this).tab('show')
-})
+	
+	  lsbridge.subscribe('project_success', function(data) {
+      	$.messager.show({  
+  	        title:'公告',  
+  	        msg:data.message,  
+  	        showType:'show',
+  	        timeout:0
+  	   }); 
+      });
+	  
+		$('#myTab a').click(function (e) {
+		  e.preventDefault()
+		  $(this).tab('show')
+		})
+		$('#myTab1 a').click(function (e) {
+		  e.preventDefault()
+		  $(this).tab('show')
+		})
 
         var myChart = echarts.init(document.getElementById('main'));
 
+		var profits=new Array();
+		getMonthProfits();
+		function getMonthProfits(){
+			$.ajaxSettings.async = false;
+			$.post(
+				"getMonthSupportMoney",
+				{},
+				function(data){
+					for(var i=0;i<data.obj.length;i++){
+						profits[i]=data.obj[i];
+					}
+				},
+				"json"
+					
+			);
+			$.ajaxSettings.async = true;
+				
+			
+		}
+		
+		
         // 指定图表的配置项和数据
 option = {
-    title: {
-        text: '七日年化收益率(%)'
-    },
-    tooltip: {
-        trigger: 'axis'
-    },
-    legend: {
-        data:['基金','股票']
-    },
-    toolbox: {
-        show: false,
-        feature: {
-            dataZoom: {
-                yAxisIndex: 'none'
-            },
-            dataView: {readOnly: false},
-            magicType: {type: ['line', 'bar']},
-            restore: {},
-            saveAsImage: {}
-        }
-    },
-    xAxis:  {
+    xAxis: {
         type: 'category',
-        boundaryGap: false,
-        data: ['2017-05-16','2017-05-17','2017-05-18','2017-05-19','2017-05-20','2017-05-21','2017-05-22']
+        data: ['一月', '二月', '三月', '四月', '五月', '六月', '七月','八月','九月','十月','十一月','十二月']
     },
     yAxis: {
-        type: 'value',
-        axisLabel: {
-            formatter: '{value} '
-        }
+        type: 'value'
     },
-    series: [
-        {
-            name:'基金',
-            type:'line',
-            data:[1, 1, 5, 3, 2, 3, 2],
-            markPoint: {
-                data: [
-                    {type: 'max', name: '最大值'},
-                    {type: 'min', name: '最小值'}
-                ]
-            },
-            markLine: {
-                data: [
-                    {type: 'average', name: '平均值'}
-                ]
-            }
-        },
-        {
-            name:'股票',
-            type:'line',
-            data:[1, -2, 2, 5, 3, 2, 4],
-            markPoint: {
-                data: [
-                    {name: '周最低', value: -2, xAxis: 1, yAxis: -1.5}
-                ]
-            },
-            markLine: {
-                data: [
-                    {type: 'average', name: '平均值'},
-                    [{
-                        symbol: 'none',
-                        x: '90%',
-                        yAxis: 'max'
-                    }, {
-                        symbol: 'circle',
-                        label: {
-                            normal: {
-                                position: 'start',
-                                formatter: '最大值'
-                            }
-                        },
-                        type: 'max',
-                        name: '最高点'
-                    }]
-                ]
-            }
-        }
-    ]
+    series: [{
+        data: profits,
+        type: 'line'
+    }]
 };
 myChart.setOption(option);
-        var myChart1 = echarts.init(document.getElementById('main1'));
+var myChart1 = echarts.init(document.getElementById('main1'));
+
+var types;
+var moneys;
+getAllTypes();
+getAllMoneys();
+function getAllTypes(){
+	$.ajaxSettings.async = false;
+	$.post(
+		"member_findAllType",
+		{},
+		function(data){
+			types=data.obj;
+		}
+			
+	);
+	
+	$.ajaxSettings.async = true;
+}
+
+function getAllMoneys(){
+	$.ajaxSettings.async = false;
+	$.post(
+		"findTypeMoney",
+		{},
+		function(data){
+			moneys=data.obj;
+		}
+			
+	);
+	
+	$.ajaxSettings.async = true;
+}
 
         // 指定图表的配置项和数据
 option1 = {
@@ -239,7 +236,7 @@ option1 = {
         }
     },
     grid: {
-        left: '3%',
+        left: '10%',
         right: '4%',
         bottom: '3%',
         containLabel: true
@@ -247,7 +244,7 @@ option1 = {
     xAxis : [
         {
             type : 'category',
-            data : ['基金', '票据', '定期理财', '变现贷'],
+            data : types,
             axisTick: {
                 alignWithLabel: true
             }
@@ -260,10 +257,10 @@ option1 = {
     ],
     series : [
         {
-            name:'直接访问',
+            name:'投资数额',
             type:'bar',
             barWidth: '60%',
-            data:[10, 52, 200, 334, 390, 330, 220]
+            data:moneys
         }
     ]
 };
@@ -273,11 +270,25 @@ option1 = {
         
         var myChart2 = echarts.init(document.getElementById('main2'));
 
+	var typemoney;
+	getAllTypeMoney();
+	function getAllTypeMoney(){
+		$.ajaxSettings.async = false;
+		$.post(
+			"findRetTypeMoney",
+			{},
+			function(data){
+				typemoney=data.obj;
+			}
+				
+		);
+	}
+
+        
         // 指定图表的配置项和数据
 option2 = {
     title : {
-        text: '某站点用户访问来源',
-        subtext: '纯属虚构',
+        text: '虚拟物品和实物回报投资金额比例',
         x:'center'
     },
     tooltip : {
@@ -287,7 +298,7 @@ option2 = {
     legend: {
         orient: 'vertical',
         left: 'left',
-        data: ['直接访问','邮件营销','联盟广告','视频广告','搜索引擎']
+        data: ['实物回报','虚拟物品'],
     },
     series : [
         {
@@ -296,11 +307,9 @@ option2 = {
             radius : '55%',
             center: ['50%', '60%'],
             data:[
-                {value:335, name:'直接访问'},
-                {value:310, name:'邮件营销'},
-                {value:234, name:'联盟广告'},
-                {value:135, name:'视频广告'},
-                {value:1548, name:'搜索引擎'}
+                {value:typemoney[0], name:'实物回报'},
+                {value:typemoney[1], name:'虚拟物品'},
+              
             ],
             itemStyle: {
                 emphasis: {

@@ -98,10 +98,10 @@ public class ProjectsBiz {
 				} );  //lamda表达式排序
 				break;
 			case 2:
-				projects.sort((TProject t1,TProject t2)->{return (int) (t1.getMoney()-t2.getMoney());} );
+				projects.sort((TProject t1,TProject t2)->{return (int) (t2.getMoney()-t1.getMoney());} );
 				break;
 			case 3:
-				projects.sort((TProject t1,TProject t2)->{return t1.getSupporter()-t2.getSupporter();} );
+				projects.sort((TProject t1,TProject t2)->{return t2.getSupporter()-t1.getSupporter();} );
 			default:
 				break;
 			}

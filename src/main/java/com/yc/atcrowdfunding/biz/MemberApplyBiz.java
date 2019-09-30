@@ -76,7 +76,7 @@ public class MemberApplyBiz {
 			}
 		}
 		result.setCode(count);
-		
+		System.out.println(result);
 		return result;
 	}
 }

@@ -481,6 +481,15 @@ public class TOrder {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "TOrder [id=" + id + ", memberid=" + memberid + ", member=" + member + ", project=" + project + ", ret="
+				+ ret + ", projectid=" + projectid + ", returnid=" + returnid + ", ordernum=" + ordernum
+				+ ", createdate=" + createdate + ", money=" + money + ", rtncount=" + rtncount + ", status=" + status
+				+ ", address=" + address + ", invoice=" + invoice + ", invoictitle=" + invoictitle + ", remark="
+				+ remark + "]";
+	}
+
 	
     
     

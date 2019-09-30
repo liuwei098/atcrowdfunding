@@ -1,30 +1,38 @@
 package com.yc.atcrowdfunding.biz;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yc.atcrowdfunding.bean.TOrder;
 import com.yc.atcrowdfunding.bean.TOrderExample;
+import com.yc.atcrowdfunding.bean.TProjectType;
+import com.yc.atcrowdfunding.bean.TProjectTypeExample;
+import com.yc.atcrowdfunding.bean.TReturn;
+import com.yc.atcrowdfunding.bean.TType;
 import com.yc.atcrowdfunding.dao.TOrderMapper;
+import com.yc.atcrowdfunding.dao.TProjectTypeMapper;
 import com.yc.atcrowdfunding.util.DateUtil;
 import com.yc.atcrowdfunding.vo.Result;
 
 @Service
 public class OrderBiz {
-	@Resource
+	@Autowired
 	private TOrderMapper om;
 	
 	@Resource
 	private ProjectBiz pbiz;
-	
+	@Resource
+	private ProjectTypeBiz ptbiz;
 	@Resource
 	private ReturnBiz rbiz;
-	
+	@Resource TProjectTypeMapper tptm;
 	public TOrder selectById(int id){
 		return om.selectByPrimaryKey(id);
 	}
@@ -62,9 +70,10 @@ public class OrderBiz {
 		TOrder order=new TOrder();
 		order.setId(Integer.parseInt(id));
 		order.setStatus("2");
+		System.out.println(order);
+		order=om.selectByPrimaryKey(Integer.parseInt(id));
 		om.updateByPrimaryKeySelective(order);
 		System.out.println(order+"========");
-		order=om.selectByPrimaryKey(Integer.parseInt(id));
 		System.out.println(rbiz);
 		System.out.println(order.getReturnid());
 		rbiz.updateMoney(order.getReturnid(), order.getMoney());
@@ -101,5 +110,80 @@ public class OrderBiz {
 		order.setStatus("2");
 		om.updateByPrimaryKeySelective(order);
 		
+	}
+
+	public TOrder findOrderById(int id) {
+		return om.selectByPrimaryKey(id);
+		
+	}
+
+	public Result findMoneyByType() {
+		Result result=new Result();
+		List<TType> typeList=ptbiz.findAll1();
+		List<Integer> moneys=new ArrayList<>();
+		List<TProjectType> projectTypes=null;
+		List<TOrder> orders=null;
+		for(TType type:typeList){
+			TProjectTypeExample example=new TProjectTypeExample();
+			example.createCriteria().andTypeidEqualTo(type.getId());
+			projectTypes=tptm.selectByExample(example);
+			int money=0;
+			for(TProjectType projectType:projectTypes){
+				TOrderExample orderExample=new TOrderExample();
+				orderExample.createCriteria().andProjectidEqualTo(projectType.getProjectid());
+				orders=om.selectByExample(orderExample);
+				
+				for(TOrder order:orders){
+					money+=order.getMoney();
+				}
+				
+			}
+			moneys.add(money);
+		}
+		result.setObj(moneys);
+		return result;
+		
+	}
+
+	public Result findRetMoney() {
+		Result result=new Result();
+		List<Integer> moneys=new ArrayList<>();
+		int money1=0;
+		int money2=0;
+		List<TOrder> list=om.selectByExample(null);
+		for(TOrder order:list){
+			if(order.getRet().getType().equals("0")){
+				money1+=order.getMoney();
+			}else{
+				money2+=order.getMoney();
+			}
+		}
+		moneys.add(money1);
+		moneys.add(money2);
+		result.setObj(moneys);
+		return result;
+	}
+
+	public Result getMonthMoney() {
+		Result result=new Result();
+		List<Integer> profits=new ArrayList<>();
+		
+		for(int month=1;month<=12;month++ ){
+			String month1;
+			if(month<10){
+				month1="0"+month;
+			}else{
+				month1=month+"";
+			}
+			System.out.println(month1);
+			Integer money=om.selectMoneyByMonth(month1);
+			if(money==null){
+				money=0;
+			}
+			System.out.println(money);
+			profits.add(money);
+		}
+		result.setObj(profits);
+		return result;
 	}
 }

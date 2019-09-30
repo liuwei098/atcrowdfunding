@@ -16,6 +16,8 @@ import com.yc.atcrowdfunding.bean.TMember;
 import com.yc.atcrowdfunding.bean.TPermission;
 import com.yc.atcrowdfunding.biz.MemberBiz;
 import com.yc.atcrowdfunding.biz.PermissionBiz;
+import com.yc.atcrowdfunding.biz.ProjectBiz;
+import com.yc.atcrowdfunding.biz.ReturnBiz;
 import com.yc.atcrowdfunding.vo.Result;
 
 /**
@@ -28,14 +30,15 @@ public class ReviewController {
 	
 	@Resource
 	private PermissionBiz pbiz;
-	
-	
+	@Resource
+	private ProjectBiz projectBiz;
+	@Resource
+	private ReturnBiz rbiz;
 	@Resource
 	MemberBiz mbiz;
 	@ModelAttribute("menus")
 	public  List<TPermission> init(HttpSession session){
 		return  pbiz.findAllMenu();
-		 
 	}
 	
 	@RequestMapping("auth_cert")
@@ -63,12 +66,10 @@ public class ReviewController {
 	}
 	
 	
-	
 	//实名验证成功向会员发送邮件提示
 	@RequestMapping("member_review_success")
 	@ResponseBody
 	public Result Success(int id,String email){
-	
 		Result result=new Result();
 		try{
 			mbiz.reviewSuccess(id, email);
@@ -83,20 +84,67 @@ public class ReviewController {
 	}
 	
 	//实名验证失败，获取失败原因向会员发送邮件提示
-		@RequestMapping("member_review_fail")
-		@ResponseBody
-		public Result Fail(int id,String email,String reason){
-		
-			Result result=new Result();
-			try{
-				mbiz.reviewFail(id, email,reason);
-				result.setCode(1);
-				result.setMessage("操作成功！");
-			}catch(RuntimeException e){
-				e.printStackTrace();
-				result.setCode(0);
-				result.setMessage("服务器繁忙,稍后再试！！");
-			}
-			return result;
+	@RequestMapping("member_review_fail")
+	@ResponseBody
+	public Result Fail(int id,String email,String reason){
+		Result result=new Result();
+		try{
+			mbiz.reviewFail(id, email,reason);
+			result.setCode(1);
+			result.setMessage("操作成功！");
+		}catch(RuntimeException e){
+			e.printStackTrace();
+			result.setCode(0);
+			result.setMessage("服务器繁忙,稍后再试！！");
 		}
+		return result;
+	}
+		
+	@RequestMapping("auth_project")
+	public String authProject(Model model,
+			@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="5") int pageSize){
+		Result result=projectBiz.findByStatus(page,pageSize);
+		model.addAttribute("result", result);
+		return "review/auth_project";
+	}
+	
+	@RequestMapping("review_project")
+	public String reviewProject(Model model,int id){
+		model.addAttribute("ret", rbiz.selectByProjectid(id));
+		return "review/project_review";
+	}
+	
+	//实名验证成功向会员发送邮件提示
+	@RequestMapping("project_review_success")
+	@ResponseBody
+	public Result projectSuccess(int id,String email,int projectid){
+		Result result=new Result();
+		try{
+			projectBiz.reviewSuccess(id, email,projectid);
+			result.setCode(1);
+			result.setMessage("项目审核成功！");
+		}catch(RuntimeException e){
+			e.printStackTrace();
+			result.setCode(0);
+			result.setMessage("服务器繁忙,稍后再试！！");
+		}
+		return result;
+	}
+	
+	//实名验证失败，获取失败原因向会员发送邮件提示
+	@RequestMapping("project_review_fail")
+	@ResponseBody
+	public Result projectFail(int id,String email,String reason,int projectid){
+		Result result=new Result();
+		try{
+			projectBiz.reviewFail(id, email,reason,projectid);
+			result.setCode(1);
+			result.setMessage("操作成功！");
+		}catch(RuntimeException e){
+			e.printStackTrace();
+			result.setCode(0);
+			result.setMessage("服务器繁忙,稍后再试！！");
+		}
+		return result;
+	}
 }

@@ -1,6 +1,7 @@
 package com.yc.atcrowdfunding.controller;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -114,6 +115,19 @@ public class ProjectTypeServlet {
 		}catch(RuntimeException e){
 			e.printStackTrace();
 		}
+		return result;
+	}
+	
+	@RequestMapping("member_findAllType")
+	@ResponseBody
+	public Result findAlltype(){
+		Result result=new Result();
+		List<TType> list=ptb.findAll1();
+		List<String> names=new ArrayList<>();
+		for(TType type:list){
+			names.add(type.getName());
+		}
+		result.setObj(names);
 		return result;
 	}
 }

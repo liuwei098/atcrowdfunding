@@ -127,7 +127,7 @@ public class UserController {
 	
 	
 	//  为用户 设置权限 assignRole
-	@RequestMapping("assignRole")
+	@RequestMapping("toassignRole")
 	public String assignRole() {
 		return "user/assignRole";
 	}
@@ -150,6 +150,12 @@ public class UserController {
 			result.setMessage("服务器繁忙，稍后再试！！");
 		}
 		return result;
+	}
+	
+	@RequestMapping("user_logout")
+	public String userLogout(HttpSession session){
+		session.removeAttribute("loginUser");
+		return "redirect:user_tologin";
 	}
 
 	

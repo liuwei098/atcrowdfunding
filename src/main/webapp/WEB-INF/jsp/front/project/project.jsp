@@ -89,7 +89,7 @@
                     <div class="row clearfix">
                         <div class="col-md-8 column">
                             <img alt="140x140" width="740" src="img/product_detail_head.jpg" />
-                            <img alt="140x140" width="740" src="img/product_detail_body.jpg" />
+                           ${project.details }
                            
                         </div>
                         <div class="col-md-4 column">
@@ -257,6 +257,9 @@
 	<script src="script/docs.min.js"></script>
     <script src="script/back-to-top.js"></script>
     <script type="text/javascript" src="layer/layer.js"></script>
+     <script type="text/javascript" src="jquery/lsbridge.min.js"></script>
+    <script type="text/javascript" src="easyui/js/jquery.min.js"></script>
+    <script type="text/javascript" src="easyui/js/jquery.easyui.min.js"></script>
 	<script>
 	    $(".prjtip img").css("cursor", "pointer");
 	    $(".prjtip img").click(function(){
@@ -287,6 +290,15 @@
     	    	}	
 	    	);
 	    }
+	    
+	    lsbridge.subscribe('project_success', function(data) {
+        	$.messager.show({  
+    	        title:'公告',  
+    	        msg:data.message,  
+    	        showType:'show',
+    	        timeout:0
+    	   }); 
+        });
 	</script>
   </body>
 </html>

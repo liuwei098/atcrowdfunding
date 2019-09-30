@@ -100,7 +100,7 @@ public class AdvertisementContorller {
             throws IllegalStateException, IOException {
         // 原始图片名称
         String oldFileName = iconpath.getOriginalFilename(); // 获取上传文件的原名
-        File dest=new File("d:/blog/upload/"+oldFileName);
+        File dest=new File("/usr/local/blog/upload/"+oldFileName);
         // 将内存中的数据写入磁盘
         iconpath.transferTo(dest);
         // 将路径名存入全局变量mynewpic

@@ -94,7 +94,7 @@
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h3>新增用户</h3>
+						<h3>新增广告</h3>
 					</div>
 					<div class="modal-body">
 						<form:form id="addUserForm" action="/user/addUser" method="post" class="form-horizontal">
@@ -102,6 +102,16 @@
 								<label for="inputAccount" class="col-sm-2 control-label">广告名</label>
 								<div class="col-sm-7">
 									<input name="name" class="form-control" id="inputAccount" placeholder="广告名"/>
+								</div>
+								<label id="errorAccount" for="inputAccount" class="col-sm-3 control-label"></label>
+							</div>
+							<div class="form-group">
+								<label for="inputAccount" class="col-sm-2 control-label">广告类型</label>
+								<div class="col-sm-7">
+									<select name="status">
+										<option value="0">大广告</option>
+										<option value="1">小广告</option>
+									</select>
 								</div>
 								<label id="errorAccount" for="inputAccount" class="col-sm-3 control-label"></label>
 							</div>
@@ -120,7 +130,7 @@
 							<div class="form-group" >
 								<label for="inputPassword" class="col-sm-2 control-label">发布人</label>
 								<div class="col-sm-7">
-									<select id="userid">
+									<select id="userid" name="userid">
 									</select>
 								</div>
 								<label id="errorPassword" for="inputPassword" class="col-sm-3 control-label"></label>
@@ -139,7 +149,7 @@
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h3>修改用户</h3>
+						<h3>修改广告</h3>
 					</div>
 					<div class="modal-body">
 						<form id="editForm" method="post" class="form-horizontal">
@@ -168,10 +178,9 @@
 								<label for="inputStates" class="col-sm-2 control-label">状态</label>
 								<div class="col-sm-7">
 									<select id="editStates" name="status">
-										<option value="0">草稿</option>
-										<option value="1">未审核</option>
-										<option value="2">不可发布</option>
-										<option value="3">已发布</option>
+										<option value="0">大广告</option>
+										<option value="1">小广告</option>
+										
 									</select>
 								</div>
 								<label id="errorStates" for="inputStates" class="col-sm-3 control-label"></label>
@@ -233,6 +242,7 @@
 	<script src="jquery/paging.js"></script>
 	<script src="bootstrap/js/fileinput.js"></script>
 	<script type="text/javascript" src="bootstrap/js/zh.js"></script> 
+	
         <script type="text/javascript">
             $(function () {
 			    $(".list-group-item").click(function(){
@@ -311,6 +321,8 @@
           
         	function addUser(){
         		var param = $("#addUserForm").serializeArray();
+        		console.log(param);
+        		return;
         		$("#conf").attr("onclick","addUser()");
         		$.ajax({
         			url:"addAdv",

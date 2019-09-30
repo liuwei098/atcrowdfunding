@@ -52,7 +52,7 @@ public class MD5Util {
   
    public static void main(String[] args) {
 	   MD5Util util=new MD5Util();
-	   System.out.println( util.string2MD5("chm123456"));
+	   System.out.println( util.string2MD5("cyz123456"));
    }
   
 }  

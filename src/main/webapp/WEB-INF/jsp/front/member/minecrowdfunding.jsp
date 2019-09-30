@@ -61,7 +61,7 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="thumbnail" style="    border-radius: 0px;">
-						<img src="img/services-box1.jpg" class="img-thumbnail" alt="A generic square placeholder image with a white border around it, making it resemble a photograph taken with an old instant camera">
+						<img src="${loginMember.iconpath }" class="img-thumbnail" alt="A generic square placeholder image with a white border around it, making it resemble a photograph taken with an old instant camera">
 						<div class="caption" style="text-align:center;">
 							<h3>
 								${loginMember.loginacct}
@@ -189,6 +189,10 @@
                                     </div>
                                 </div>
                             </div>
+                         
+                            
+                            
+                            
                             <div role="tabpanel" class="tab-pane fade" id="attension" aria-labelledby="attension-tab">
                                 <div class="container-fluid">
                                     <div class="row clearfix">
@@ -590,8 +594,9 @@
 			}
 			
 			function findDetails(id){
-				alert(id);
-			}
+				window.location.href="orderDetail?id="+id;			}
+			
+			
 			
 			function getStatusOrder(status){
 				$.post(

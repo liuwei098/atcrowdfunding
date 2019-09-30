@@ -1,8 +1,12 @@
 package com.yc.atcrowdfunding.biz;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,9 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.yc.atcrowdfunding.bean.TProject;
 import com.yc.atcrowdfunding.bean.TType;
 import com.yc.atcrowdfunding.bean.TTypeExample;
 import com.yc.atcrowdfunding.dao.TTypeMapper;
+import com.yc.atcrowdfunding.util.RedisUtil;
 import com.yc.atcrowdfunding.vo.Result;
 
 /**
@@ -24,7 +30,8 @@ import com.yc.atcrowdfunding.vo.Result;
 public class ProjectTypeBiz {
 	@Resource
 	private TTypeMapper tm;
-	
+	@Resource
+	private RedisUtil util;
 	//项目总览页面根据分类查找项目，page用于滚动加载
 	public List<TType> findByTerm(Integer id,int page,int pageSize){
 		TTypeExample example=null;
@@ -85,6 +92,13 @@ public class ProjectTypeBiz {
 			}
 			return 0;
 		}
+		long length=util.lGetListSize("types");
+		if(length!=0){
+			for(int i=0;i<length;i++){
+				util.del("atcrowdfundingtype"+util.lGetIndex("types", i));
+			}
+		}
+		util.del("types");
 		return -1;
 	}
 	
@@ -98,6 +112,13 @@ public class ProjectTypeBiz {
 		for(String id:s){
 			tm.deleteByPrimaryKey(Integer.parseInt(id));
 		}
+		long length=util.lGetListSize("types");
+		if(length!=0){
+			for(int i=0;i<length;i++){
+				util.del("atcrowdfundingtype"+util.lGetIndex("types", i));
+			}
+		}
+		util.del("types");
 	}
 	
 	/**
@@ -109,7 +130,55 @@ public class ProjectTypeBiz {
 		TTypeExample example=new TTypeExample();
 		example.createCriteria().andIdEqualTo(ttype.getId());
 		int result=tm.updateByExample(ttype, example);
+		long length=util.lGetListSize("types");
+		if(length!=0){
+			for(int i=0;i<length;i++){
+				util.del("atcrowdfundingtype"+util.lGetIndex("types", i));
+			}
+		}
+		util.del("types");
 		return result;
+	}
+	
+	public List<TType> findAll(){
+		List<TType> list=new ArrayList<TType>();
+		list= tm.selectByExample(null);
+		return list;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<TType> findAll1(){
+		List<TType> list=new ArrayList<TType>();
+		long length=util.lGetListSize("types");
+		if(length!=0){
+			System.out.println("进来了");
+			Map<Object, Object> result=util.hmget("atcrowdfundingtype"+util.lGetIndex("types", 0));
+			if(result!=null && !result.isEmpty()){
+				for(int i=0;i<length;i++){
+					TType type=new TType();
+					Map<Object, Object> ret=util.hmget("atcrowdfundingtype"+util.lGetIndex("types", i));
+					type.setId((int)ret.get("id"));
+					type.setName((String)ret.get("name"));
+					type.setRemark((String)ret.get("remark"));
+					list.add(type);
+				}
+			}
+			return list;
+		}
+		list= tm.selectByExample(null);
+		System.out.println(list);
+		Map<String, Object> map=new HashMap<>();
+		for(TType type:list){
+			util.lSet("types", type.getId());
+			RedisUtil.typeids.add(type.getId());
+			map.put("id", type.getId());
+			map.put("name", type.getName());
+			map.put("remark", type.getRemark());
+			util.hmset("atcrowdfundingtype"+type.getId(),map);
+		}
+		System.out.println("=========="+RedisUtil.typeids+"==========");
+		 /*del key atcrowdfundingtype9 atcrowdfundingtype5 atcrowdfundingtype4 atcrowdfundingtype3 atcrowdfundingtype2 atcrowdfundingtype1*/
+		return list;
 	}
 }
  

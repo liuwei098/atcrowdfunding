@@ -67,6 +67,15 @@ public class MemberApplyServlet {
 	@RequestMapping("member_check_repeat")
 	@ResponseBody
 	public Result CheckRepeat(String name,String value){
+		System.out.println("进来了");
+		Result result=mabiz.checkRepeat(name, value);
+		return result;
+	}
+	
+	@RequestMapping("member_check_repeat1")
+	@ResponseBody
+	public Result CheckRepeat1(String name,String value){
+		System.out.println("进来了");
 		Result result=mabiz.checkRepeat(name, value);
 		return result;
 	}
@@ -98,7 +107,7 @@ public class MemberApplyServlet {
 		String name=iconpath.getOriginalFilename();
 		//随机生成一段字符串与文件名拼接 防止重名
 		String path=UUID.randomUUID().toString().substring(0,9)+name;
-		File dest=new File("D:/blog/"+path);
+		File dest=new File("D:/blog/img/"+path);
 		try {
 			iconpath.transferTo(dest);
 		} catch (IllegalStateException e) {
@@ -142,6 +151,7 @@ public class MemberApplyServlet {
 			}else{
 				session.setAttribute("applyEmail", email);
 			}
+			
 		}catch(RuntimeException e){
 			e.printStackTrace();
 			result.setCode(500);
